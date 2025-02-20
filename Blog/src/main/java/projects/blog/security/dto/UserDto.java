@@ -10,13 +10,11 @@ public class UserDto {
     private Long id;
     private String email;
     private String name;
-    private boolean fromSocial;
 
     @QueryProjection
-    public UserDto(Long id, String email, String name, boolean fromSocial) {
+    public UserDto(Long id, String email, String name) {
         this.id = id;
         this.email = email;
         this.name = name;
-        this.fromSocial = fromSocial;
     }
 }

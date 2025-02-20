@@ -15,8 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m where m.email=:email")
     Optional<Member> findByEmail(String email);
 
-    @Query("SELECT new projects.blog.security.dto.UserDto(m.id, m.email, m.name, m.fromSocial) " +
-            "FROM Member m WHERE m.email = :email")
+    @Query("SELECT new projects.blog.security.dto.UserDto(m.id, m.email, m.name) " +
+            "FROM Member m " +
+            "WHERE m.email = :email")
     Optional<UserDto> findUserDtoByEmail(String email);
 
     @EntityGraph(attributePaths = {"roleSet"}, type = EntityGraph.EntityGraphType.LOAD)

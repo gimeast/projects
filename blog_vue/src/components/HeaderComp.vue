@@ -50,9 +50,9 @@
           class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
           >로그인</router-link
         >
-        <router-link v-else to="/login" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-          >로그아웃</router-link
-        >
+        <button v-else @click="logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+          로그아웃
+        </button>
         <input
           type="text"
           class="px-3 py-2 border rounded-md focus:outline-none focus:ring2 focus:ring-blue-500"
@@ -66,7 +66,15 @@
 <script setup>
 import { computed } from 'vue'
 import { useLoginStore } from '@/store/loginStore'
+import { useRouter } from 'vue-router'
 
 const loginStore = useLoginStore()
+const router = useRouter()
+
+const logout = () => {
+  loginStore.logout()
+  router.push({ name: 'MainView' })
+}
+
 const user = computed(() => loginStore.user)
 </script>
