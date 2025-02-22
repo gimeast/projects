@@ -22,23 +22,24 @@
         <button v-else @click="logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
           로그아웃
         </button>
-        <input
-          type="text"
-          class="px-3 py-2 border rounded-md focus:outline-none focus:ring2 focus:ring-blue-500"
-        />
-        <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">검색</button>
+
+        <InputComp type="text" id="search" v-model="search" required />
+        <ButtonComp type="button" variant="primary">검색</ButtonComp>
       </div>
     </div>
   </header>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useLoginStore } from '@/store/loginStore'
 import { useMenuStore } from '@/store/menuStore.js'
 import { useRouter } from 'vue-router'
 import MenuItem from './MenuItem.vue'
+import InputComp from '../components/InputComp.vue'
+import ButtonComp from './ButtonComp.vue'
 
+const search = ref('')
 const loginStore = useLoginStore()
 const menuStore = useMenuStore()
 const router = useRouter()
