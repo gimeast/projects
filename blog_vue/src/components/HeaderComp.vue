@@ -9,38 +9,7 @@
       </div>
       <nav>
         <ul class="flex space-x-4">
-          <li class="group relative">
-            <a href="#" class="text-gray-700 hover:text-blue-500"
-              >메뉴1
-              <ul
-                class="absolute left-0 mt-2 w-40 bg-white border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-              >
-                <li>
-                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >서브메뉴1-1</a
-                  >
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >서브메뉴1-2</a
-                  >
-                </li>
-              </ul>
-            </a>
-          </li>
-          <li class="group relative">
-            <a href="#" class="text-gray-700 hover:text-blue-500">메뉴2</a>
-            <ul
-              class="absolute left-0 mt-2 w-40 bg-white border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-            >
-              <li>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">서브메뉴2-1</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">서브메뉴2-2</a>
-              </li>
-            </ul>
-          </li>
+          <MenuItem v-for="menu in menus" :key="menu.id" :menu="menu"></MenuItem>
         </ul>
       </nav>
       <div class="flex items-center space-x-4">
@@ -64,11 +33,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useLoginStore } from '@/store/loginStore'
+import { useMenuStore } from '@/store/menuStore.js'
 import { useRouter } from 'vue-router'
+import MenuItem from './MenuItem.vue'
 
 const loginStore = useLoginStore()
+const menuStore = useMenuStore()
 const router = useRouter()
 
 const logout = () => {
@@ -77,4 +49,8 @@ const logout = () => {
 }
 
 const user = computed(() => loginStore.user)
+const menus = computed(() => menuStore.menus)
+
+const fetchMenus = async () => await menuStore.fetchMenus()
+onMounted(fetchMenus)
 </script>

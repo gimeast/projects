@@ -43,7 +43,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth-> {
             auth.requestMatchers("/api/v1/user/login").permitAll();
-            auth.requestMatchers("/api/auth/refresh").permitAll();
+            auth.requestMatchers("/api/public/**").permitAll();
+            auth.requestMatchers("/api/auth/**").permitAll();
             auth.requestMatchers("/api/**").authenticated(); // 인증 필요 경로
             auth.anyRequest().authenticated();
         });
