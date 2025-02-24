@@ -13,10 +13,7 @@ export const useMenuStore = defineStore('menu', {
         }
 
         const data = await response.json()
-
-        console.log('data:', data)
         this.menus = data
-        console.log('this.menus:', this.menus)
       } catch (error) {
         console.error('메뉴조회 중 오류 발생:', error)
       }

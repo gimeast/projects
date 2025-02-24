@@ -60,15 +60,5 @@ export const useLoginStore = defineStore('login', {
         this.user = null
       }
     },
-    logout() {
-      this.accessToken = null
-      this.refreshToken = null
-      this.user = null
-      this.isAuthenticated = false
-
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
-      localStorage.removeItem('user')
-    },
   },
 })

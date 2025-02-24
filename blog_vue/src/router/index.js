@@ -12,6 +12,12 @@ const routes = [
     name: 'LoginView',
     component: () => import('../views/LoginView.vue'),
   },
+  {
+    path: '/menus/:menuId',
+    name: 'MenuView',
+    component: () => import('../views/MenuView.vue'),
+    props: true,
+  },
 ]
 
 const router = createRouter({

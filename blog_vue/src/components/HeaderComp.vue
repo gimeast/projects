@@ -23,7 +23,7 @@
           로그아웃
         </button>
 
-        <InputComp type="text" id="search" v-model="search" required />
+        <InputComp type="text" id="search" v-model="search" label="" required />
         <ButtonComp type="button" variant="primary">검색</ButtonComp>
       </div>
     </div>
