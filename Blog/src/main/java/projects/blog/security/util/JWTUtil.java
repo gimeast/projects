@@ -15,7 +15,7 @@ import java.util.Date;
 public class JWTUtil {
     @Value("${gimeast.secret-key.value}")
     private String SECRET_KEY;
-    private final long ACCESS_TOKEN_EXPIRE = 1; // 1분
+    private final long ACCESS_TOKEN_EXPIRE = 30; // 1분
     private final long REFRESH_TOKEN_EXPIRE = 60 * 24 * 7; // 7일
     private final MacAlgorithm hs256 = Jwts.SIG.HS256;
 
