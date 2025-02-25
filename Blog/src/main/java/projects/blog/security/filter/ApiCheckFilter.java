@@ -36,7 +36,7 @@ public class ApiCheckFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
 
         // 로그인 엔드포인트는 검증에서 제외
-        if (requestURI.equals("/api/v1/user/login")) {
+        if (requestURI.equals("/api/v1/user/login") || requestURI.startsWith("/api/public") || requestURI.startsWith("/api/auth")) {
             filterChain.doFilter(request, response);
             return;
         }

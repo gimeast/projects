@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { fetchWithToken } from '../services/api.js'
 
 export const usePostStore = defineStore('post', {
   state: () => ({
@@ -9,10 +10,9 @@ export const usePostStore = defineStore('post', {
   actions: {
     async fetchPosts(menuId) {
       try {
-        const response = await fetch(`http://localhost:8081/api/v1/posts/${menuId}`, {
+        const response = await fetchWithToken(`http://localhost:8081/api/v1/posts/${menuId}`, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('accessToken'),
           },
           method: 'GET',
         })
@@ -29,7 +29,7 @@ export const usePostStore = defineStore('post', {
     },
     async fetchPost(postId) {
       try {
-        const response = await fetch(`http://localhost:8081/api/v1/posts/${postId}`)
+        const response = await fetchWithToken(`http://localhost:8081/api/v1/posts/${postId}`)
 
         if (!response.ok) {
           throw new Error('게시물 조회 실패')
@@ -43,7 +43,7 @@ export const usePostStore = defineStore('post', {
     },
     async savePost(userId, categoryId, title, content) {
       try {
-        const response = await fetch('http://localhost:8081/api/v1/posts', {
+        const response = await fetchWithToken('http://localhost:8081/api/v1/posts', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem('accessToken'),

@@ -21,6 +21,7 @@ const routes = [
   {
     path: '/post/write',
     name: 'PostWriteView',
+    meta: { requiresAuth: true },
     component: () => import('../views/PostWriteView.vue'),
   },
 ]
@@ -28,6 +29,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const accessToken = localStorage.getItem('accessToken')
+
+  if (to.meta.requiresAuth && !accessToken) {
+    next({ name: 'LoginView' })
+  } else {
+    next()
+  }
 })
 
 export default router

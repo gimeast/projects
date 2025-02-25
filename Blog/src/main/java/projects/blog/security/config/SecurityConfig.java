@@ -45,7 +45,7 @@ public class SecurityConfig {
             auth.requestMatchers("/api/v1/user/login").permitAll();
             auth.requestMatchers("/api/public/**").permitAll();
             auth.requestMatchers("/api/auth/**").permitAll();
-            auth.requestMatchers("/api/**").authenticated(); // 인증 필요 경로
+            auth.requestMatchers("/api/**").authenticated();
             auth.anyRequest().authenticated();
         });
 
@@ -53,9 +53,9 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer::disable);
         http.logout(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
-        http.oauth2Login(login -> {
-            login.successHandler(customSuccessHandler());
-        });
+//        http.oauth2Login(login -> {
+//            login.successHandler(customSuccessHandler());
+//        });
         http.rememberMe(rememberMe -> {
             rememberMe.tokenValiditySeconds(60 * 60 * 24 * 7);
         });

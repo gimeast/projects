@@ -9,12 +9,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import projects.blog.security.dto.TokenDto;
-import projects.blog.security.entity.RefreshToken;
 import projects.blog.security.repository.RefreshTokenRepository;
 import projects.blog.security.util.JWTUtil;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,33 +22,24 @@ public class AuthController {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestHeader("Authorization") String refreshToken) {
+    public ResponseEntity<TokenDto> refresh(@RequestHeader("Authorization") String refreshToken) {
         try {
-            if (refreshToken != null && refreshToken.startsWith("Bearer ")) {
-                String token = refreshToken.substring(7);
-                String email = jwtUtil.validateAndExtract(token);
+            log.info("리프레시토큰 발급!!!");
+            String email = jwtUtil.validateAndExtract(refreshToken);
+            if (email != null) {
+                String newAccessToken = "Bearer " + jwtUtil.generateAccessToken(email);
+//                String newRefreshToken = jwtUtil.generateRefreshToken(email);
 
-                if (email != null) {
-                    Optional<RefreshToken> savedRefreshToken = refreshTokenRepository.findByRefreshToken(token);
-
-                    if (savedRefreshToken.isPresent() && savedRefreshToken.get().getExpiryDate().isAfter(LocalDateTime.now())) {
-
-                        String newAccessToken = jwtUtil.generateAccessToken(email);
-
-                        return ResponseEntity.ok(TokenDto.builder()
-                                .grantType("Bearer")
-                                .accessToken(newAccessToken)
-                                .refreshToken(token)
-                                .build());
-                    }
-                }
+                return ResponseEntity.ok(TokenDto.builder()
+                        .accessToken(newAccessToken)
+//                        .refreshToken(newRefreshToken)
+                        .build());
             }
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (Exception e) {
-            log.error("Refresh token error: ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            log.error("Refresh token validation failed: {}", e.getMessage());
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
 
 }
