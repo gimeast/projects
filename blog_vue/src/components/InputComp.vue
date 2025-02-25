@@ -7,6 +7,7 @@
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       :required="required"
+      :placeholder="placeholder"
       class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
     />
   </div>
@@ -35,6 +36,10 @@ defineProps({
   required: {
     type: Boolean,
     default: false,
+  },
+  placeholder: {
+    type: String,
+    default: '',
   },
 })
 

@@ -18,6 +18,11 @@ const routes = [
     component: () => import('../views/MenuView.vue'),
     props: true,
   },
+  {
+    path: '/post/write',
+    name: 'PostWriteView',
+    component: () => import('../views/PostWriteView.vue'),
+  },
 ]
 
 const router = createRouter({

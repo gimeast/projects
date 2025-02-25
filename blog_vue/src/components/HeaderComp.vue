@@ -23,6 +23,8 @@
           로그아웃
         </button>
 
+        <router-link v-if="user" to="/post/write">글쓰기</router-link>
+
         <InputComp type="text" id="search" v-model="search" label="" required />
         <ButtonComp type="button" variant="primary">검색</ButtonComp>
       </div>

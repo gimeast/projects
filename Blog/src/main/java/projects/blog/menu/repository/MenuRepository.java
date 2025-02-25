@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    @Query("SELECT DISTINCT m FROM Menu m LEFT JOIN FETCH m.children WHERE m.parent IS NULL AND m.enabled = true")
+    @Query("select distinct m from Menu m left join fetch m.children where m.parent is null and m.enabled = true")
     List<Menu> findAllWithChildren();
 
 }

@@ -2,9 +2,9 @@ package projects.blog.openapi;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import projects.blog.category.dto.CategoryDto;
 import projects.blog.category.repository.CategoryRepository;
 import projects.blog.menu.dto.MenuDto;
@@ -12,7 +12,7 @@ import projects.blog.menu.service.MenuService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/public")
 public class MenuController {
