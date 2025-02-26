@@ -37,7 +37,8 @@
         </select>
       </div>
 
-      <EditorComp v-model="content" :height="600" />
+      <TipTapComp v-model="content" />
+
       <div class="flex justify-center mt-4">
         <ButtonComp type="submit" variant="primary">게시</ButtonComp>
         <ButtonComp type="button" variant="secondary" @click="cancelPost">취소</ButtonComp>
@@ -55,7 +56,7 @@ import { useMenuStore } from '@/store/menuStore'
 import { useCategoryStore } from '@/store/categoryStore'
 import InputComp from '@/components/InputComp.vue'
 import ButtonComp from '@/components/ButtonComp.vue'
-import EditorComp from '@/components/EditorComp.vue'
+import TipTapComp from "@/components/TipTapComp.vue";
 
 const router = useRouter()
 
@@ -75,7 +76,7 @@ const selectedCategory = ref('')
 
 const submitPost = async () => {
   await postStore.savePost(loginStore.user.id, selectedCategory.value, title.value, content.value)
-  router.push(`/menus/${selectedSubMenu.value || selectedMenu.value}`)
+  await router.push(`/menus/${selectedSubMenu.value || selectedMenu.value}`)
 }
 
 const cancelPost = () => {

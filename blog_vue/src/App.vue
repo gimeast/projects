@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col min-h-screen">
     <HeaderComp />
     <section class="flex-grow container mx-auto px-4">
       <router-view />
@@ -21,6 +21,5 @@ body {
 }
 .container {
   padding-top: 4rem; /* Header height */
-  padding-bottom: 4rem; /* Footer height */
 }
 </style>
