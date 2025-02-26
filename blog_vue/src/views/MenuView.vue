@@ -22,7 +22,7 @@
           </span>
           <span>
             <i class="fas fa-clock mr-1"></i>
-            {{ new Date(post.createDate).toLocaleDateString() }}
+            {{ new Date(post.regDate).toLocaleDateString() }}
           </span>
         </div>
 

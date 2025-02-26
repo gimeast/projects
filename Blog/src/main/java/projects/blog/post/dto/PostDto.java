@@ -4,6 +4,8 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 public class PostDto {
@@ -12,6 +14,7 @@ public class PostDto {
     private String content;
     private Long memberId;
     private Long categoryId;
+    private LocalDateTime regDate;
 
     @QueryProjection
     public PostDto(Long id, String title) {
