@@ -17,8 +17,9 @@ public class PostDto {
     private LocalDateTime regDate;
 
     @QueryProjection
-    public PostDto(Long id, String title) {
+    public PostDto(Long id, String title, LocalDateTime regDate) {
         this.id = id;
         this.title = title;
+        this.regDate = regDate;
     }
 }

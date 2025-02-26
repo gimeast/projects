@@ -76,7 +76,7 @@ const selectedCategory = ref('')
 
 const submitPost = async () => {
   await postStore.savePost(loginStore.user.id, selectedCategory.value, title.value, content.value)
-  await router.push(`/menus/${selectedSubMenu.value || selectedMenu.value}`)
+  await router.push(`/posts/menus/${selectedSubMenu.value || selectedMenu.value}`)
 }
 
 const cancelPost = () => {

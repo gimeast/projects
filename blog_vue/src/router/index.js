@@ -13,13 +13,19 @@ const routes = [
     component: () => import('../views/LoginView.vue'),
   },
   {
-    path: '/menus/:menuId',
-    name: 'MenuView',
-    component: () => import('../views/MenuView.vue'),
+    path: '/posts/menus/:menuId',
+    name: 'PostListView',
+    component: () => import('../views/PostListView.vue'),
     props: true,
   },
   {
-    path: '/post/write',
+    path: '/posts/:postId',
+    name: 'PostDetailView',
+    component: () => import('../views/PostDetail.vue'),
+    props: true,
+  },
+  {
+    path: '/posts/write',
     name: 'PostWriteView',
     meta: { requiresAuth: true },
     component: () => import('../views/PostWriteView.vue'),

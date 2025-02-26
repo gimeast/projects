@@ -1,6 +1,6 @@
 <template>
   <li class="group relative">
-    <a :href="`/menus/${props.menu.id}`" class="text-gray-700 hover:text-blue-500">{{
+    <a :href="`/posts/menus/${props.menu.id}`" class="text-gray-700 hover:text-blue-500">{{
       props.menu.title
     }}</a>
     <ul
