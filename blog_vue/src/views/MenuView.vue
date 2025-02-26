@@ -45,11 +45,7 @@
           </div>
 
           <!-- 자세히 보기 버튼 -->
-          <button
-            class="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
-          >
-            자세히 보기
-          </button>
+          <ButtonComp type="button" variant="primary">자세히 보기</ButtonComp>
         </div>
       </div>
     </div>
@@ -62,6 +58,7 @@
 <script setup>
 import { defineProps, onMounted, ref } from 'vue'
 import { usePostStore } from '@/store/postStore'
+import ButtonComp from '../components/ButtonComp.vue'
 
 const postStore = usePostStore()
 const posts = ref([])
