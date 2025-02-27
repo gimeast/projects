@@ -1,5 +1,4 @@
-import {fetchWithToken} from "@/services/api";
-
+import {API_BASE_URL} from '../../config'
 export const refreshToken = async () => {
     try {
         // 로컬 스토리지에서 리프레시 토큰 가져오기
@@ -10,7 +9,7 @@ export const refreshToken = async () => {
         }
 
         // 서버에 리프레시 토큰으로 새 액세스 토큰 요청
-        const response = await fetchWithToken('/api/auth/refresh', {
+        const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
