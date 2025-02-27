@@ -5,6 +5,7 @@ export const usePostStore = defineStore('post', {
     state: () => ({
         posts: [],
         post: {},
+        currentMenuId: 0,
         count: 0,
     }),
     actions: {
@@ -23,6 +24,7 @@ export const usePostStore = defineStore('post', {
 
                 const data = await response.json()
                 this.posts = data
+                this.currentMenuId = menuId
             } catch (error) {
                 console.error('게시물 목록 조회 중 오류 발생:', error)
             }
@@ -62,5 +64,22 @@ export const usePostStore = defineStore('post', {
                 console.error('게시물 저장 중 오류 발생:', error)
             }
         },
+        async deletePost(postId) {
+            try {
+                const response = await fetchWithToken(`/api/v1/posts/${postId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: localStorage.getItem('accessToken'),
+                    },
+                    method: 'DELETE',
+                })
+
+                if (!response.ok) {
+                    throw new Error('게시물 삭제 실패')
+                }
+            } catch (error) {
+                console.error('게시물 삭제 중 오류 발생:', error)
+            }
+        }
     },
 })

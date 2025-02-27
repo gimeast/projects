@@ -8,6 +8,7 @@
       {
         'bg-blue-500 text-white hover:bg-blue-600': variant === 'primary',
         'bg-gray-500 text-white hover:bg-gray-600': variant === 'secondary',
+        'bg-red-500 text-white hover:bg-red-600': variant === 'danger'
       },
     ]"
     @click="handleClick"

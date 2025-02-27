@@ -46,10 +46,10 @@
 </template>
 
 <script setup>
-import { computed, defineProps, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { usePostStore } from '@/store/postStore'
-import { useLoginStore } from '@/store/loginStore'
+import {computed, defineProps, onMounted} from 'vue'
+import {useRouter} from 'vue-router'
+import {usePostStore} from '@/store/postStore'
+import {useLoginStore} from '@/store/loginStore'
 import ButtonComp from '@/components/ButtonComp.vue'
 
 const router = useRouter()
@@ -95,7 +95,7 @@ const handleDelete = async () => {
   if (confirm('정말 삭제하시겠습니까?')) {
     try {
       await postStore.deletePost(post.value.id)
-      router.push('/posts')
+      router.push(`/posts/menus/${postStore.currentMenuId}`)
     } catch (error) {
       console.error('게시글 삭제 실패:', error)
     }
