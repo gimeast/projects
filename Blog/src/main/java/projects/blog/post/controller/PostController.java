@@ -29,9 +29,16 @@ public class PostController {
         return ResponseEntity.ok(postId);
     }
 
-    @GetMapping("/{menuId}")
+    @GetMapping("/menus/{menuId}")
     public ResponseEntity<List<PostDto>> getPosts(@PathVariable Long menuId) {
         List<PostDto> posts = postService.getPosts(menuId);
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostDto> getPost(@PathVariable Long postId) {
+        PostDto post = postService.getPost(postId);
+        log.info("post========>{}", post);
+        return ResponseEntity.ok(post);
     }
 }

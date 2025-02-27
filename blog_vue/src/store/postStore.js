@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchWithToken } from '../services/api.js'
+import { fetchWithToken } from '@/services/api'
 
 export const usePostStore = defineStore('post', {
   state: () => ({
@@ -10,7 +10,7 @@ export const usePostStore = defineStore('post', {
   actions: {
     async fetchPosts(menuId) {
       try {
-        const response = await fetchWithToken(`http://localhost:8081/api/v1/posts/${menuId}`, {
+        const response = await fetchWithToken(`http://localhost:8081/api/v1/posts/menus/${menuId}`, {
           headers: {
             'Content-Type': 'application/json',
           },

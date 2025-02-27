@@ -2,12 +2,12 @@
   <div class="container">
     <form class="container" @submit.prevent="submitPost">
       <InputComp
-        type="text"
-        id="title"
-        v-model="title"
-        label=""
-        required
-        placeholder="제목을 입력하세요"
+          type="text"
+          id="title"
+          v-model="title"
+          label=""
+          required
+          placeholder="제목을 입력하세요"
       />
 
       <div class="mt-4">
@@ -37,7 +37,7 @@
         </select>
       </div>
 
-      <TipTapComp v-model="content" />
+      <TipTapComp v-model="content"/>
 
       <div class="flex justify-center mt-4">
         <ButtonComp type="submit" variant="primary">게시</ButtonComp>
@@ -48,15 +48,15 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { usePostStore } from '@/store/postStore'
-import { useLoginStore } from '@/store/loginStore'
-import { useMenuStore } from '@/store/menuStore'
-import { useCategoryStore } from '@/store/categoryStore'
+import {onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {usePostStore} from '@/store/postStore'
+import {useLoginStore} from '@/store/loginStore'
+import {useMenuStore} from '@/store/menuStore'
+import {useCategoryStore} from '@/store/categoryStore'
 import InputComp from '@/components/InputComp.vue'
 import ButtonComp from '@/components/ButtonComp.vue'
-import TipTapComp from "@/components/TipTapComp.vue";
+import TipTapComp from '@/components/TipTapComp.vue'
 
 const router = useRouter()
 

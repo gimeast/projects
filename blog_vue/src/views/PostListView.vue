@@ -69,7 +69,7 @@
 <script setup>
 import { defineProps, onMounted, ref } from 'vue'
 import { usePostStore } from '@/store/postStore'
-import ButtonComp from '../components/ButtonComp.vue'
+import ButtonComp from '@/components/ButtonComp.vue'
 
 const postStore = usePostStore()
 const posts = ref([])

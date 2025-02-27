@@ -22,4 +22,13 @@ public class PostDto {
         this.title = title;
         this.regDate = regDate;
     }
+
+    public PostDto(Long id, String title, String content, Long memberId, Long categoryId, LocalDateTime regDate) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.memberId = memberId;
+        this.categoryId = categoryId;
+        this.regDate = regDate;
+    }
 }

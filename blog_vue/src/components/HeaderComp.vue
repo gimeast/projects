@@ -38,7 +38,7 @@ import { useLoginStore } from '@/store/loginStore'
 import { useMenuStore } from '@/store/menuStore.js'
 import { useRouter } from 'vue-router'
 import MenuItem from './MenuItem.vue'
-import InputComp from '../components/InputComp.vue'
+import InputComp from '@/components/InputComp.vue'
 import ButtonComp from './ButtonComp.vue'
 
 const search = ref('')

@@ -26,6 +26,15 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final MenuRepository menuRepository;
 
+    public Post dtoToEntity(PostDto postDto) {
+        return Post.builder()
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .member(memberRepository.getReferenceById(postDto.getMemberId()))
+                .category(categoryRepository.getReferenceById(postDto.getCategoryId()))
+                .build();
+    }
+
     public List<PostDto> getPosts(Long menuId) {
         Optional<Menu> byId = menuRepository.findById(menuId);
         if(byId.isPresent()) {
@@ -50,13 +59,15 @@ public class PostService {
         return save.getId();
     }
 
-    public Post dtoToEntity(PostDto postDto) {
-        return Post.builder()
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .member(memberRepository.getReferenceById(postDto.getMemberId()))
-                .category(categoryRepository.getReferenceById(postDto.getCategoryId()))
-                .build();
+    public PostDto getPost(Long postId) {
+        Optional<Post> byId = postRepository.findById(postId);
 
+        if(byId.isPresent()) {
+            Post post = byId.get();
+
+            return new PostDto(post.getId(), post.getTitle(), post.getContent(), post.getMember().getId(), post.getCategory().getId(), post.getRegDate());
+        }
+
+        return null;
     }
 }
