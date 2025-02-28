@@ -2,19 +2,19 @@
   <div class="mb-3">
     <label :for="id" class="block text-sm font-medium text-gray-700">{{ label }}</label>
     <input
-      :type="type"
-      :id="id"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      :required="required"
-      :placeholder="placeholder"
-      class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+        :type="type"
+        :id="id"
+        :value="modelValue"
+        @input="updateValue"
+        :required="required"
+        :placeholder="placeholder"
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
     />
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import {defineProps, defineEmits} from 'vue'
 
 defineProps({
   type: {
@@ -43,5 +43,9 @@ defineProps({
   },
 })
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
+
+const updateValue = (e) => {
+  emit('update:modelValue', e.target.value)
+}
 </script>
