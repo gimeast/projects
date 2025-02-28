@@ -16,6 +16,7 @@ import projects.blog.post.dto.PostDto;
 import projects.blog.post.entity.Post;
 import projects.blog.post.repository.PostRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class PostService {
 
     public Post dtoToEntity(PostDto postDto) {
         return Post.builder()
+                .id(postDto.getId())
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
                 .member(memberRepository.getReferenceById(postDto.getMemberId()))
@@ -39,20 +41,15 @@ public class PostService {
     }
 
     public List<PostDto> getPosts(Long menuId) {
-        Optional<Menu> byId = menuRepository.findById(menuId);
-        if(byId.isPresent()) {
-            Menu menu = byId.get();
+        return menuRepository.findById(menuId)
+                .map(this::getPostsByMenuType)
+                .orElse(Collections.emptyList());
+    }
 
-            if(ObjectUtils.isEmpty(menu.getParent())) {
-                log.info("대메뉴 선택");
-                return postRepository.findAllByChildMenuId(menuId);
-            } else {
-                log.info("소메뉴 선택");
-                return postRepository.findAllByParentMenuId(menuId);
-            }
-        }
-
-        return null;
+    private List<PostDto> getPostsByMenuType(Menu menu) {
+        return ObjectUtils.isEmpty(menu.getParent())
+                ? postRepository.findAllPostsByParentMenuId(menu.getId())
+                : postRepository.findAllPostsByMenuId(menu.getId());
     }
 
     @Transactional

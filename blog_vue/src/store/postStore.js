@@ -80,6 +80,27 @@ export const usePostStore = defineStore('post', {
             } catch (error) {
                 console.error('게시물 삭제 중 오류 발생:', error)
             }
-        }
+        },
+        async editPost(postId, userId, categoryId, title, content) {
+            try {
+                const response = await fetchWithToken(`/api/v1/posts/${postId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: localStorage.getItem('accessToken'),
+                    },
+                    method: 'PUT',
+                    body: JSON.stringify({memberId: userId, categoryId, title, content}),
+                })
+
+                if (!response.ok) {
+                    throw new Error('게시물 저장 실패')
+                }
+
+                const data = await response.json()
+                this.post = data
+            } catch (error) {
+                console.error('게시물 저장 중 오류 발생:', error)
+            }
+        },
     },
 })

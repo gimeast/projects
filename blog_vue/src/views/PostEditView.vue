@@ -40,7 +40,7 @@
       <TipTapComp v-model="content"/>
 
       <div class="flex justify-center mt-4">
-        <ButtonComp type="submit" variant="primary">게시</ButtonComp>
+        <ButtonComp type="submit" variant="primary">수정</ButtonComp>
         <ButtonComp type="button" variant="secondary" @click="cancelPost">취소</ButtonComp>
       </div>
     </form>
@@ -49,7 +49,7 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import {useRouter} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {usePostStore} from '@/store/postStore'
 import {useLoginStore} from '@/store/loginStore'
 import {useMenuStore} from '@/store/menuStore'
@@ -59,24 +59,31 @@ import ButtonComp from '@/components/ButtonComp.vue'
 import TipTapComp from '@/components/TipTapComp.vue'
 
 const router = useRouter()
+const route = useRoute()
 
 const postStore = usePostStore()
 const loginStore = useLoginStore()
 const menuStore = useMenuStore()
 const categoryStore = useCategoryStore()
 
+const post = ref({})
 const title = ref('')
 const content = ref('')
 const menus = ref([])
 const selectedMenu = ref('')
+
 const subMenus = ref([])
 const selectedSubMenu = ref('')
+
 const categories = ref([])
 const selectedCategory = ref('')
 
+const menuId = postStore.currentMenuId
+const postId = route.params.postId
+
 const submitPost = async () => {
-  await postStore.savePost(loginStore.user.id, selectedCategory.value, title.value, content.value)
-  await router.push(`/posts/menus/${selectedSubMenu.value || selectedMenu.value}`)
+  await postStore.editPost(postId, loginStore.user.id, selectedCategory.value, title.value, content.value)
+  await router.push(`/posts/menus/${menuId}`)
 }
 
 const cancelPost = () => {
@@ -98,6 +105,12 @@ const onSubMenuChange = async () => {
 }
 
 onMounted(async () => {
+  await postStore.fetchPost(postId)
+  post.value = postStore.post
+
+  title.value = post.value.title
+  content.value = post.value.content
+
   await menuStore.fetchMenus()
   menus.value = menuStore.menus
 })

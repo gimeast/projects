@@ -3,8 +3,8 @@
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center">
         <router-link to="/" class="flex items-center">
-          <img src="@/assets/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
-          <span class="font-semibold text-xl">Blog</span>
+          <img src="@/assets/logo.png" alt="Logo" class="h-8 w-8 mr-2"/>
+          <span class="font-semibold text-xl">Dev Blog</span>
         </router-link>
       </div>
       <nav>
@@ -14,10 +14,11 @@
       </nav>
       <div class="flex items-center space-x-4">
         <router-link
-          v-if="!user"
-          to="/login"
-          class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-          >로그인</router-link
+            v-if="!user"
+            to="/login"
+            class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >로그인
+        </router-link
         >
         <button v-else @click="logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
           로그아웃
@@ -25,7 +26,7 @@
 
         <router-link v-if="user" to="/posts/write">글쓰기</router-link>
 
-        <InputComp type="text" id="search" v-model="search" label="" required />
+        <InputComp type="text" id="search" v-model="search" label="" required/>
         <ButtonComp type="button" variant="primary">검색</ButtonComp>
       </div>
     </div>
@@ -33,10 +34,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { useLoginStore } from '@/store/loginStore'
-import { useMenuStore } from '@/store/menuStore.js'
-import { useRouter } from 'vue-router'
+import {computed, onMounted, ref} from 'vue'
+import {useLoginStore} from '@/store/loginStore'
+import {useMenuStore} from '@/store/menuStore.js'
+import {useRouter} from 'vue-router'
 import MenuItem from './MenuItem.vue'
 import InputComp from '@/components/InputComp.vue'
 import ButtonComp from './ButtonComp.vue'
@@ -48,7 +49,7 @@ const router = useRouter()
 
 const logout = () => {
   loginStore.logout()
-  router.push({ name: 'MainView' })
+  router.push({name: 'MainView'})
 }
 
 const user = computed(() => loginStore.user)

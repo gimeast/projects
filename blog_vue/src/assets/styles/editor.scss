@@ -1,0 +1,72 @@
+// ProseMirror 관련 스타일
+.ProseMirror {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-height: 600px; //에디터 높이
+  outline: none;
+
+  &:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  }
+
+  p.is-editor-empty:first-child::before {
+    content: "내용을 입력하세요...";
+    float: left;
+    color: #9ca3af;
+    pointer-events: none;
+    height: 0;
+  }
+
+  > * + * {
+    margin-top: 0.75em;
+  }
+
+  // 기존의 heading 스타일들
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+  }
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.5em; }
+  h3 { font-size: 1.17em; }
+  h4 { font-size: 1em; }
+  h5 { font-size: 0.83em; }
+  h6 { font-size: 0.67em; }
+
+  // 나머지 스타일들...
+  ul, ol {
+    padding: 0 1rem;
+  }
+
+  ul { list-style-type: disc; }
+  ol { list-style-type: decimal; }
+
+  blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1rem;
+    color: #4b5563;
+  }
+
+  code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-family: monospace;
+  }
+
+  pre {
+    background-color: #1f2937;
+    color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+
+    code {
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
+  }
+}

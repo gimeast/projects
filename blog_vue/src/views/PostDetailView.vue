@@ -88,7 +88,7 @@ const formatDate = (dateString) => {
 
 // 버튼 핸들러
 const handleEdit = () => {
-  router.push(`/posts/edit/${post.value.id}`)
+  router.push(`/posts/${post.value.id}/edit`)
 }
 
 const handleDelete = async () => {
