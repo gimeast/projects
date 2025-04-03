@@ -1,5 +1,8 @@
 package gimeast.vehiclemanagement.security.filter;
 
+import gimeast.vehiclemanagement.member.entity.MemberEntity;
+import gimeast.vehiclemanagement.member.entity.MemberRole;
+import gimeast.vehiclemanagement.member.repository.MemberRepository;
 import gimeast.vehiclemanagement.security.auth.CustomUserPrincipal;
 import gimeast.vehiclemanagement.security.util.JWTUtil;
 import jakarta.servlet.FilterChain;
@@ -16,9 +19,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,6 +32,8 @@ import java.util.stream.Collectors;
 @Log4j2
 public class JWTCheckFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
+
+    private final MemberRepository memberRepository;
 
     /**
      * JWTCheckFilter가 동작하지 않아야 하는 경로를 지정하기 위해 사용
@@ -69,9 +77,16 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             log.info("tokenMap: {}", tokenMap);
 
             String mid = tokenMap.get("mid").toString();
+            Optional<MemberEntity> byMid = memberRepository.findByMidWithRoles(mid);
 
-            List<String> roleList = (List<String>) tokenMap.get("roleSet");
-            String[] roles = roleList.toArray(new String[0]);
+            if (byMid.isEmpty()) {
+                handleException(response, new Exception("MEMBER NOT FOUND"));
+                return;
+            }
+
+            String[] roles = byMid.get().getRoleSet().stream()
+                    .map(Enum::name)
+                    .toArray(String[]::new);
 
             //토큰 검증 결과를 이용해서 Authentication 객체를 생성
             UsernamePasswordAuthenticationToken authenticationToken =
