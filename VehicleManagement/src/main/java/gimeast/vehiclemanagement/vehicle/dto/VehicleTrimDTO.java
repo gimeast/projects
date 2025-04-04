@@ -15,6 +15,13 @@ public class VehicleTrimDTO {
     private String fuelType;
     private String transmission;
 
+    public VehicleTrimDTO(VehicleTrimEntity trimEntity) {
+        this.idx = trimEntity.getIdx();
+        this.drivetrain = trimEntity.getDrivetrain();
+        this.fuelType = trimEntity.getFuelType();
+        this.transmission = trimEntity.getTransmission();
+    }
+
     public VehicleTrimEntity toEntity() {
         return VehicleTrimEntity.builder()
                 .idx(idx)

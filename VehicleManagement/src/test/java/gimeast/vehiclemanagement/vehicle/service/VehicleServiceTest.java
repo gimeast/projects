@@ -1,7 +1,7 @@
 package gimeast.vehiclemanagement.vehicle.service;
 
 import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
-import gimeast.vehiclemanagement.vehicle.dto.VehicleInfoSaveDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import org.junit.jupiter.api.Test;
@@ -18,12 +18,12 @@ class VehicleServiceTest {
      * 자동차 회사 브랜드, 차종, 트림 저장
      */
     @Test
-    void saveVehicleInfo() {
-        VehicleInfoSaveDTO vehicleInfoSaveDTO = new VehicleInfoSaveDTO();
-        vehicleInfoSaveDTO.setBrandDTO(new VehicleBrandDTO(null, "HYUNDAI"));
-        vehicleInfoSaveDTO.setModelDTO(new VehicleModelDTO(null, "Grandeur", "2025", null));
-        vehicleInfoSaveDTO.setTrimDTO(new VehicleTrimDTO(null, null, "2WD", "gasoline", "DCT8"));
+    void saveVehicleSpecByAdmin() {
+        VehicleSpecDTO vehicleSpecDTO = new VehicleSpecDTO();
+        vehicleSpecDTO.setBrandDTO(new VehicleBrandDTO(null, "HYUNDAI"));
+        vehicleSpecDTO.setModelDTO(new VehicleModelDTO(null, "Grandeur", "2025", null));
+        vehicleSpecDTO.setTrimDTO(new VehicleTrimDTO(null, null, "2WD", "gasoline", "DCT8"));
 
-        vehicleService.saveVehicleInfo(vehicleInfoSaveDTO);
+        vehicleService.saveVehicleSpecByAdmin(vehicleSpecDTO);
     }
 }

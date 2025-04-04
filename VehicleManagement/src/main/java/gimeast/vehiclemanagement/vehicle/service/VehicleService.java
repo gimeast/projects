@@ -1,6 +1,8 @@
 package gimeast.vehiclemanagement.vehicle.service;
 
-import gimeast.vehiclemanagement.vehicle.dto.VehicleInfoSaveDTO;
+import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
+import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleBrandEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleModelEntity;
@@ -13,6 +15,9 @@ import gimeast.vehiclemanagement.vehicle.repository.VehicleTrimPartsRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleTrimRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,21 +32,21 @@ public class VehicleService {
     private final VehicleTrimRepository vehicleTrimRepository;
 
     @Transactional
-    public void saveVehicleInfo(VehicleInfoSaveDTO vehicleInfoSaveDTO) {
-        String brandName = vehicleInfoSaveDTO.getBrandDTO().getName();
+    public void saveVehicleSpecByAdmin(VehicleSpecDTO vehicleSpecDTO) {
+        String brandName = vehicleSpecDTO.getBrandDTO().getName();
 
         VehicleBrandEntity brandEntity = vehicleBrandRepository.findByName(brandName)
-                .orElseGet(() -> vehicleBrandRepository.save(vehicleInfoSaveDTO.getBrandDTO().toEntity()));
+                .orElseGet(() -> vehicleBrandRepository.save(vehicleSpecDTO.getBrandDTO().toEntity()));
 
-        String modelName = vehicleInfoSaveDTO.getModelDTO().getName();
+        String modelName = vehicleSpecDTO.getModelDTO().getName();
         VehicleModelEntity modelEntity = vehicleModelRepository.findByNameAndBrand(modelName, brandEntity)
                 .orElseGet(() -> {
-                    VehicleModelEntity newModel = vehicleInfoSaveDTO.getModelDTO().toEntity();
+                    VehicleModelEntity newModel = vehicleSpecDTO.getModelDTO().toEntity();
                     newModel.setBrand(brandEntity);
                     return vehicleModelRepository.save(newModel);
                 });
 
-        VehicleTrimDTO trimDTO = vehicleInfoSaveDTO.getTrimDTO();
+        VehicleTrimDTO trimDTO = vehicleSpecDTO.getTrimDTO();
         vehicleTrimRepository.findByModelAndDrivetrainAndFuelTypeAndTransmission(
                         modelEntity,
                         trimDTO.getDrivetrain(),
@@ -56,5 +61,13 @@ public class VehicleService {
         VehicleTrimEntity newTrimEntity = trimDTO.toEntity();
         newTrimEntity.setModel(modelEntity);
         vehicleTrimRepository.save(newTrimEntity);
+    }
+
+    public PageResponseDTO<VehicleSpecDTO> getVehicleSpecListByAdmin(PageRequestDTO pageRequestDTO) {
+        Sort sort = Sort.by("mno").descending();
+        Pageable pageable = pageRequestDTO.getPageable(sort);
+
+        Page<VehicleSpecDTO> page = vehicleTrimRepository.list(pageable);
+        return PageResponseDTO.toPageResponse(page);
     }
 }

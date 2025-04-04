@@ -1,6 +1,8 @@
 package gimeast.vehiclemanagement.vehicle.controller;
 
-import gimeast.vehiclemanagement.vehicle.dto.VehicleInfoSaveDTO;
+import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
+import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,15 @@ public class VehicleController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<String> saveVehicleInfoForAdmin(@RequestBody VehicleInfoSaveDTO request) {
-        vehicleService.saveVehicleInfo(request);
+    public ResponseEntity<String> specSaveForAdmin(@RequestBody VehicleSpecDTO request) {
+        vehicleService.saveVehicleSpecByAdmin(request);
         return new ResponseEntity<>("정보가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping
+    public ResponseEntity<PageResponseDTO<VehicleSpecDTO>> specListForAdmin(PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<VehicleSpecDTO> resultDTO = vehicleService.getVehicleSpecListByAdmin(pageRequestDTO);
+        return ResponseEntity.ok(resultDTO);
     }
 }

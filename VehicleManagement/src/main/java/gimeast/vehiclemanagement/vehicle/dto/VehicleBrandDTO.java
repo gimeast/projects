@@ -12,6 +12,11 @@ public class VehicleBrandDTO {
     private Long idx;
     private String name;
 
+    public VehicleBrandDTO(VehicleBrandEntity entity) {
+        this.idx = entity.getIdx();
+        this.name = entity.getName();
+    }
+
     public VehicleBrandEntity toEntity() {
         return VehicleBrandEntity.builder()
                 .idx(idx)
