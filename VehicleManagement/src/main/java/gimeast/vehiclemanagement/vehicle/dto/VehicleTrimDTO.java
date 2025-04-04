@@ -12,14 +12,14 @@ public class VehicleTrimDTO {
     private Long idx;
     private VehicleModelDTO modelDTO;
     private String drivetrain;
-    private String engineType;
+    private String fuelType;
     private String transmission;
 
     public VehicleTrimEntity toEntity() {
         return VehicleTrimEntity.builder()
                 .idx(idx)
                 .drivetrain(drivetrain)
-                .engineType(engineType)
+                .fuelType(fuelType)
                 .transmission(transmission)
                 .build();
     }

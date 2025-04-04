@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface VehicleTrimRepository extends JpaRepository<VehicleTrimEntity, Long> {
-    Optional<VehicleTrimEntity> findByModelAndDrivetrainAndEngineTypeAndTransmission(
-            VehicleModelEntity model, String drivetrain, String engineType, String transmission
+    Optional<VehicleTrimEntity> findByModelAndDrivetrainAndFuelTypeAndTransmission(
+            VehicleModelEntity model, String drivetrain, String fuelType, String transmission
     );
 }

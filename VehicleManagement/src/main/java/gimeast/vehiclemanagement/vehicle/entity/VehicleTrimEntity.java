@@ -38,7 +38,7 @@ public class VehicleTrimEntity {
     private String drivetrain;
 
     @Column(nullable = false)
-    private String engineType;
+    private String fuelType;
 
     @Column(nullable = false)
     private String transmission;

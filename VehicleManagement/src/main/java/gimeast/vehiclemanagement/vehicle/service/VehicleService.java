@@ -42,15 +42,15 @@ public class VehicleService {
                 });
 
         VehicleTrimDTO trimDTO = vehicleInfoSaveDTO.getTrimDTO();
-        vehicleTrimRepository.findByModelAndDrivetrainAndEngineTypeAndTransmission(
+        vehicleTrimRepository.findByModelAndDrivetrainAndFuelTypeAndTransmission(
                         modelEntity,
                         trimDTO.getDrivetrain(),
-                        trimDTO.getEngineType(),
+                        trimDTO.getFuelType(),
                         trimDTO.getTransmission()
                 )
                 .ifPresent(entity -> {
                     throw new TrimAlreadyExistsException("이미 존재하는 트림입니다. [모델: " + modelEntity.getName() + ", 구동방식: " + trimDTO.getDrivetrain()
-                            + ", 엔진유형: " + trimDTO.getEngineType() + ", 변속기: " + trimDTO.getTransmission() + "]");
+                            + ", 엔진유형: " + trimDTO.getFuelType() + ", 변속기: " + trimDTO.getTransmission() + "]");
                 });
 
         VehicleTrimEntity newTrimEntity = trimDTO.toEntity();
