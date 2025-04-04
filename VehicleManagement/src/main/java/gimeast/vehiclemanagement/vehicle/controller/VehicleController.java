@@ -31,8 +31,8 @@ public class VehicleController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<PageResponseDTO<VehicleSpecDTO>> specListForAdmin(PageRequestDTO pageRequestDTO) {
-        PageResponseDTO<VehicleSpecDTO> resultDTO = vehicleService.getVehicleSpecListByAdmin(pageRequestDTO);
+    public ResponseEntity<PageResponseDTO<VehicleSpecDTO>> specListForAdmin(String search, PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<VehicleSpecDTO> resultDTO = vehicleService.getVehicleSpecListByAdmin(search, pageRequestDTO);
         return ResponseEntity.ok(resultDTO);
     }
 }

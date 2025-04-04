@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface VehicleSearch {
-    Page<VehicleSpecDTO> list(Pageable pageable);
+    Page<VehicleSpecDTO> list(String search, Pageable pageable);
 }

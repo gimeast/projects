@@ -63,11 +63,11 @@ public class VehicleService {
         vehicleTrimRepository.save(newTrimEntity);
     }
 
-    public PageResponseDTO<VehicleSpecDTO> getVehicleSpecListByAdmin(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<VehicleSpecDTO> getVehicleSpecListByAdmin(String search, PageRequestDTO pageRequestDTO) {
         Sort sort = Sort.by("mno").descending();
         Pageable pageable = pageRequestDTO.getPageable(sort);
 
-        Page<VehicleSpecDTO> page = vehicleTrimRepository.list(pageable);
+        Page<VehicleSpecDTO> page = vehicleTrimRepository.list(search, pageable);
         return PageResponseDTO.toPageResponse(page);
     }
 }
