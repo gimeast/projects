@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface VehicleSearch {
     Page<VehicleSpecDTO> list(String search, Pageable pageable);
+    VehicleSpecDTO getDetails(Long trimIdx);
 }

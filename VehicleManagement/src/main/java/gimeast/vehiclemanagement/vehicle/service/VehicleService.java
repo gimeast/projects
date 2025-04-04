@@ -64,10 +64,13 @@ public class VehicleService {
     }
 
     public PageResponseDTO<VehicleSpecDTO> getVehicleSpecListByAdmin(String search, PageRequestDTO pageRequestDTO) {
-        Sort sort = Sort.by("mno").descending();
-        Pageable pageable = pageRequestDTO.getPageable(sort);
+        Pageable pageable = pageRequestDTO.getPageable();
 
         Page<VehicleSpecDTO> page = vehicleTrimRepository.list(search, pageable);
         return PageResponseDTO.toPageResponse(page);
+    }
+
+    public VehicleSpecDTO getDetails(Long trimIdx) {
+        return vehicleTrimRepository.getDetails(trimIdx);
     }
 }

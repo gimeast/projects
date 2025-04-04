@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +32,15 @@ public class VehicleController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<PageResponseDTO<VehicleSpecDTO>> specListForAdmin(String search, PageRequestDTO pageRequestDTO) {
+    public ResponseEntity<PageResponseDTO<VehicleSpecDTO>> getSpecListForAdmin(String search, PageRequestDTO pageRequestDTO) {
         PageResponseDTO<VehicleSpecDTO> resultDTO = vehicleService.getVehicleSpecListByAdmin(search, pageRequestDTO);
         return ResponseEntity.ok(resultDTO);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/{trimIdx}")
+    public ResponseEntity<VehicleSpecDTO> getSpecForAdmin(@PathVariable Long trimIdx) {
+        VehicleSpecDTO details = vehicleService.getDetails(trimIdx);
+        return ResponseEntity.ok(details);
     }
 }

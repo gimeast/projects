@@ -52,6 +52,7 @@ public class VehicleSearchImpl implements VehicleSearch {
             .where(searchCriteria)
             .limit(pageable.getPageSize())
             .offset(pageable.getOffset())
+            .orderBy(trim.idx.desc())
             .fetch();
 
         Optional<Long> count = Optional.ofNullable(queryFactory.select(trim.count())
@@ -62,5 +63,22 @@ public class VehicleSearchImpl implements VehicleSearch {
                 .fetchOne());
 
         return new PageImpl<>(fetch, pageable, count.orElse(0L));
+    }
+
+    @Override
+    public VehicleSpecDTO getDetails(Long trimIdx) {
+        QVehicleBrandEntity brand = QVehicleBrandEntity.vehicleBrandEntity;
+        QVehicleModelEntity model = QVehicleModelEntity.vehicleModelEntity;
+        QVehicleTrimEntity trim = QVehicleTrimEntity.vehicleTrimEntity;
+
+        return queryFactory.select(Projections.constructor(VehicleSpecDTO.class,
+                        Projections.constructor(VehicleBrandDTO.class, brand),
+                        Projections.constructor(VehicleModelDTO.class, model),
+                        Projections.constructor(VehicleTrimDTO.class, trim)))
+                .from(trim)
+                .innerJoin(trim.model, model)
+                .innerJoin(model.brand, brand)
+                .where(trim.idx.eq(trimIdx))
+                .fetchOne();
     }
 }
