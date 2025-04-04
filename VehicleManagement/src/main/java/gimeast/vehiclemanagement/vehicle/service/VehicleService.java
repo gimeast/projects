@@ -5,6 +5,7 @@ import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleBrandEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleModelEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
+import gimeast.vehiclemanagement.vehicle.exception.TrimAlreadyExistsException;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleBrandRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleModelRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehiclePartsRepository;
@@ -41,16 +42,19 @@ public class VehicleService {
                 });
 
         VehicleTrimDTO trimDTO = vehicleInfoSaveDTO.getTrimDTO();
-        VehicleTrimEntity trimEntity = vehicleTrimRepository.findByModelAndDrivetrainAndEngineTypeAndTransmission(
+        vehicleTrimRepository.findByModelAndDrivetrainAndEngineTypeAndTransmission(
                         modelEntity,
                         trimDTO.getDrivetrain(),
                         trimDTO.getEngineType(),
                         trimDTO.getTransmission()
                 )
-                .orElseGet(() -> {
-                    VehicleTrimEntity newTrim = trimDTO.toEntity();
-                    newTrim.setModel(modelEntity);
-                    return vehicleTrimRepository.save(newTrim);
+                .ifPresent(entity -> {
+                    throw new TrimAlreadyExistsException("이미 존재하는 트림입니다. [모델: " + modelEntity.getName() + ", 구동방식: " + trimDTO.getDrivetrain()
+                            + ", 엔진유형: " + trimDTO.getEngineType() + ", 변속기: " + trimDTO.getTransmission() + "]");
                 });
+
+        VehicleTrimEntity newTrimEntity = trimDTO.toEntity();
+        newTrimEntity.setModel(modelEntity);
+        vehicleTrimRepository.save(newTrimEntity);
     }
 }
