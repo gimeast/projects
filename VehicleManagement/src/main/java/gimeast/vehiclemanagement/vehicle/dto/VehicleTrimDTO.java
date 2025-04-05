@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VehicleTrimDTO {
     private Long idx;
-    private VehicleModelDTO modelDTO;
     private String drivetrain;
     private String fuelType;
     private String transmission;

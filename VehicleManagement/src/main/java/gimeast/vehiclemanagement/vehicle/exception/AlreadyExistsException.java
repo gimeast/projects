@@ -2,12 +2,12 @@ package gimeast.vehiclemanagement.vehicle.exception;
 
 import lombok.Getter;
 
-public class TrimAlreadyExistsException extends RuntimeException {
+public class AlreadyExistsException extends RuntimeException {
     private String message;
     @Getter
     private int code;
 
-    public TrimAlreadyExistsException(String message) {
+    public AlreadyExistsException(String message) {
         super(message);
         this.message = message;
         this.code = 400;

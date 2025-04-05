@@ -1,6 +1,6 @@
 package gimeast.vehiclemanagement.vehicle.advice;
 
-import gimeast.vehiclemanagement.vehicle.exception.TrimAlreadyExistsException;
+import gimeast.vehiclemanagement.vehicle.exception.AlreadyExistsException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class VehicleAPIControllerAdvice {
      * @param exception
      * @return
      */
-    @ExceptionHandler(TrimAlreadyExistsException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(TrimAlreadyExistsException exception) {
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<?> handleEntityNotFoundException(AlreadyExistsException exception) {
         Map<String, Object> errors = new HashMap<>();
         errors.put("message", exception.getMessage());
         errors.put("code", exception.getCode());

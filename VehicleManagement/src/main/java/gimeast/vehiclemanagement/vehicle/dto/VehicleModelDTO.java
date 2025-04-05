@@ -12,7 +12,6 @@ public class VehicleModelDTO {
     private Long idx;
     private String name;
     private String year;
-    private VehicleBrandDTO brandDTO;
 
     public VehicleModelDTO(VehicleModelEntity entity) {
         this.idx = entity.getIdx();

@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface VehicleModelRepository extends JpaRepository<VehicleModelEntity, Long> {
     Optional<VehicleModelEntity> findByNameAndBrand(String name, VehicleBrandEntity brand);
+    int countByBrand(VehicleBrandEntity brand);
 }
