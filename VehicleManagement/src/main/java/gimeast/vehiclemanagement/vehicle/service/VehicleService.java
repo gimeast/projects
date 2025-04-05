@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -99,6 +100,13 @@ public class VehicleService {
             if(brandCount == 1) {
                 vehicleBrandRepository.deleteById(brand.getIdx());
             }
+        }
+    }
+
+    @Transactional
+    public void deleteVehicleSpecsByAdmin(List<Long> trimIdx) {
+        for (Long idx : trimIdx) {
+            deleteVehicleSpecByAdmin(idx);
         }
     }
 }

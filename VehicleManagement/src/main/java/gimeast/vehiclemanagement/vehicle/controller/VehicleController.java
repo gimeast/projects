@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @Log4j2
@@ -49,6 +51,13 @@ public class VehicleController {
     @DeleteMapping(value = "/{trimIdx}")
     public ResponseEntity<String> deleteSpecByAdmin(@PathVariable Long trimIdx) {
         vehicleService.deleteVehicleSpecByAdmin(trimIdx);
+        return ResponseEntity.ok("삭제를 완료하였습니다.");
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping(value = "/delete")
+    public ResponseEntity<String> deleteSpecsByAdmin(@RequestBody List<Long> trimIdx) {
+        vehicleService.deleteVehicleSpecsByAdmin(trimIdx);
         return ResponseEntity.ok("삭제를 완료하였습니다.");
     }
 }
