@@ -8,9 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<MemberEntity, String> {
-    Optional<MemberEntity> findByMid(String mid);
-
     @Query("SELECT m FROM MemberEntity m LEFT JOIN FETCH m.roleSet WHERE m.mid = :mid")
     Optional<MemberEntity> findByMidWithRoles(@Param("mid") String mid);
 
+    Optional<MemberEntity> findByMid(String mid);
 }

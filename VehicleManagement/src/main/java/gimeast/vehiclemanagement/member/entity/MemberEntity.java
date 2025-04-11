@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="vehicle_member")
+@Table(name="member")
 @Getter
 @ToString
 @AllArgsConstructor
@@ -50,7 +50,7 @@ public class MemberEntity extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
-            name = "vehicle_member_roles",
+            name = "member_roles",
             joinColumns = @JoinColumn(name = "member_idx")  // 조인 컬럼 이름 지정 (선택사항)
     )
     @Enumerated(EnumType.STRING)
