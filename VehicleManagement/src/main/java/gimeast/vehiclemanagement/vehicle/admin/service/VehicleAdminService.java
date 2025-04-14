@@ -3,6 +3,8 @@ package gimeast.vehiclemanagement.vehicle.admin.service;
 import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
 import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
 import gimeast.vehiclemanagement.common.exception.EntityNotFoundException;
+import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleBrandDTO;
+import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleModelDTO;
 import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleBrandEntity;
@@ -108,5 +110,17 @@ public class VehicleAdminService {
         for (Long idx : trimIdx) {
             deleteVehicleSpecByAdmin(idx);
         }
+    }
+
+    public List<VehicleBrandDTO> getBrandList() {
+        return vehicleBrandRepository.findAllDTO();
+    }
+
+    public List<VehicleModelDTO> getModelListByBrandIdx(Long brandIdx) {
+        return vehicleModelRepository.findAllDTOListByBrandIdx(brandIdx);
+    }
+
+    public List<VehicleTrimDTO> getTrimDTOList(Long modelIdx) {
+        return vehicleTrimRepository.findAllDTOListByModelIdx(modelIdx);
     }
 }
