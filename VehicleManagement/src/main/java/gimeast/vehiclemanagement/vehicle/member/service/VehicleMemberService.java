@@ -43,4 +43,8 @@ public class VehicleMemberService {
 
         vehicleMemberRepository.save(vehicleEntity);
     }
+
+    public void deleteVehicle(Long memberVehicleIdx) {
+        vehicleMemberRepository.deleteById(memberVehicleIdx);
+    }
 }
