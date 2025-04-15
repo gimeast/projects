@@ -1,6 +1,6 @@
-package gimeast.vehiclemanagement.vehicle.admin.repository.custom;
+package gimeast.vehiclemanagement.vehicle.repository.custom;
 
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleSpecDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

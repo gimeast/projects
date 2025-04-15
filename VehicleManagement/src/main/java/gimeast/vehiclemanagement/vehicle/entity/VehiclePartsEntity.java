@@ -1,45 +1,33 @@
-package gimeast.vehiclemanagement.vehicle.admin.entity;
+package gimeast.vehiclemanagement.vehicle.entity;
 
+import gimeast.vehiclemanagement.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="vehicle_trim")
+@Table(name="vehicle_parts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString(exclude = {"model"})
-public class VehicleTrimEntity {
+@ToString
+public class VehiclePartsEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_model_idx")
-    private VehicleModelEntity model;
-
     @Column(nullable = false)
-    private String drivetrain;
+    private String name;
 
-    @Column(nullable = false)
-    private String fuelType;
-
-    @Column(nullable = false)
-    private String transmission;
+    private String type;
 }

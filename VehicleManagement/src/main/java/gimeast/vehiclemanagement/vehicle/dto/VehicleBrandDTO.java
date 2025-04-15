@@ -1,6 +1,6 @@
-package gimeast.vehiclemanagement.vehicle.admin.dto;
+package gimeast.vehiclemanagement.vehicle.dto;
 
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleBrandEntity;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleBrandEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

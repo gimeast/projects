@@ -1,4 +1,4 @@
-package gimeast.vehiclemanagement.vehicle.admin.dto;
+package gimeast.vehiclemanagement.vehicle.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,7 @@
-package gimeast.vehiclemanagement.vehicle.member.entity;
+package gimeast.vehiclemanagement.vehicle.entity;
 
 import gimeast.vehiclemanagement.common.entity.BaseEntity;
 import gimeast.vehiclemanagement.member.entity.MemberEntity;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleBrandEntity;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleModelEntity;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleTrimEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

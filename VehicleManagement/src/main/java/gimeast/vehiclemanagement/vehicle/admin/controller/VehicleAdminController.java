@@ -2,10 +2,10 @@ package gimeast.vehiclemanagement.vehicle.admin.controller;
 
 import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
 import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleBrandDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleModelDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleSpecDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleTrimDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.admin.service.VehicleAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

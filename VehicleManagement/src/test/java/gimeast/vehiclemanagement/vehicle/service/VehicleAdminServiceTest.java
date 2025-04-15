@@ -1,9 +1,9 @@
 package gimeast.vehiclemanagement.vehicle.service;
 
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleBrandDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleSpecDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleModelDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleTrimDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.admin.service.VehicleAdminService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

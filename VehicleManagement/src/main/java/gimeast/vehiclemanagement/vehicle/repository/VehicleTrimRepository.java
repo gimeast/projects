@@ -1,9 +1,9 @@
-package gimeast.vehiclemanagement.vehicle.admin.repository;
+package gimeast.vehiclemanagement.vehicle.repository;
 
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleTrimDTO;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleModelEntity;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleTrimEntity;
-import gimeast.vehiclemanagement.vehicle.admin.repository.custom.VehicleSearch;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleModelEntity;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
+import gimeast.vehiclemanagement.vehicle.repository.custom.VehicleSearch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +17,7 @@ public interface VehicleTrimRepository extends JpaRepository<VehicleTrimEntity, 
 
     int countByModel(VehicleModelEntity model);
 
-    @Query("SELECT new gimeast.vehiclemanagement.vehicle.admin.dto.VehicleTrimDTO(t.idx, t.drivetrain, t.fuelType, t.transmission) " +
+    @Query("SELECT new gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO(t.idx, t.drivetrain, t.fuelType, t.transmission) " +
             "FROM VehicleTrimEntity t " +
             "WHERE t.model.idx = :modelIdx")
     List<VehicleTrimDTO> findAllDTOListByModelIdx(Long modelIdx);

@@ -2,10 +2,11 @@ package gimeast.vehiclemanagement.vehicle.member.repository;
 
 import gimeast.vehiclemanagement.member.entity.MemberEntity;
 import gimeast.vehiclemanagement.member.repository.MemberRepository;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleTrimEntity;
-import gimeast.vehiclemanagement.vehicle.admin.repository.VehicleTrimRepository;
-import gimeast.vehiclemanagement.vehicle.member.dto.VehicleDTO;
-import gimeast.vehiclemanagement.vehicle.member.entity.VehicleEntity;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
+import gimeast.vehiclemanagement.vehicle.repository.VehicleRepository;
+import gimeast.vehiclemanagement.vehicle.repository.VehicleTrimRepository;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleDTO;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-class VehicleMemberRepositoryTest {
+class VehicleRepositoryTest {
     @Autowired
-    private VehicleMemberRepository vehicleMemberRepository;
+    private VehicleRepository vehicleRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -58,12 +59,12 @@ class VehicleMemberRepositoryTest {
                 .trim(trim)
                 .build();
 
-        vehicleMemberRepository.save(vehicle);
+        vehicleRepository.save(vehicle);
     }
 
     @Test
     void getMemberVehicleList() {
-        List<VehicleDTO> vehicleList = vehicleMemberRepository.findVehicleDTOListByMid("test");
+        List<VehicleDTO> vehicleList = vehicleRepository.findVehicleDTOListByMid("test");
         for (VehicleDTO vehicleDTO : vehicleList) {
             System.out.println("vehicleDTO = " + vehicleDTO);
         }

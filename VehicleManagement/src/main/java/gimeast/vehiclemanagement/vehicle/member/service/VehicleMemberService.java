@@ -2,11 +2,11 @@ package gimeast.vehiclemanagement.vehicle.member.service;
 
 import gimeast.vehiclemanagement.member.entity.MemberEntity;
 import gimeast.vehiclemanagement.member.repository.MemberRepository;
-import gimeast.vehiclemanagement.vehicle.admin.entity.VehicleTrimEntity;
-import gimeast.vehiclemanagement.vehicle.admin.repository.VehicleTrimRepository;
-import gimeast.vehiclemanagement.vehicle.member.dto.VehicleDTO;
-import gimeast.vehiclemanagement.vehicle.member.entity.VehicleEntity;
-import gimeast.vehiclemanagement.vehicle.member.repository.VehicleMemberRepository;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
+import gimeast.vehiclemanagement.vehicle.repository.VehicleTrimRepository;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleDTO;
+import gimeast.vehiclemanagement.vehicle.entity.VehicleEntity;
+import gimeast.vehiclemanagement.vehicle.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ import java.util.Optional;
 @Log4j2
 public class VehicleMemberService {
     private final MemberRepository memberRepository;
-    private final VehicleMemberRepository vehicleMemberRepository;
+    private final VehicleRepository vehicleRepository;
     private final VehicleTrimRepository vehicleTrimRepository;
 
     public List<VehicleDTO> getMemberVehicleInfoList(String mid) {
-        return vehicleMemberRepository.findVehicleDTOListByMid(mid);
+        return vehicleRepository.findVehicleDTOListByMid(mid);
     }
 
     @Transactional
@@ -41,10 +41,10 @@ public class VehicleMemberService {
                 .trim(trimOptional.orElseThrow())
                 .build();
 
-        vehicleMemberRepository.save(vehicleEntity);
+        vehicleRepository.save(vehicleEntity);
     }
 
     public void deleteVehicle(Long memberVehicleIdx) {
-        vehicleMemberRepository.deleteById(memberVehicleIdx);
+        vehicleRepository.deleteById(memberVehicleIdx);
     }
 }

@@ -1,6 +1,5 @@
-package gimeast.vehiclemanagement.vehicle.admin.entity;
+package gimeast.vehiclemanagement.vehicle.entity;
 
-import gimeast.vehiclemanagement.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,25 +18,28 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="vehicle_model")
+@Table(name="vehicle_trim")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString(exclude = {"brand"})
-public class VehicleModelEntity extends BaseEntity {
+@ToString(exclude = {"model"})
+public class VehicleTrimEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @Column(nullable = false)
-    private String name;
-
-    private String year;
-
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_brand_idx")
-    private VehicleBrandEntity brand;
+    @JoinColumn(name = "vehicle_model_idx")
+    private VehicleModelEntity model;
 
+    @Column(nullable = false)
+    private String drivetrain;
+
+    @Column(nullable = false)
+    private String fuelType;
+
+    @Column(nullable = false)
+    private String transmission;
 }

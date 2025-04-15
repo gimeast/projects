@@ -1,17 +1,17 @@
-package gimeast.vehiclemanagement.vehicle.admin.repository.custom.impl;
+package gimeast.vehiclemanagement.vehicle.repository.custom.impl;
 
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleBrandDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleSpecDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleModelDTO;
-import gimeast.vehiclemanagement.vehicle.admin.dto.VehicleTrimDTO;
-import gimeast.vehiclemanagement.vehicle.admin.entity.QVehicleBrandEntity;
-import gimeast.vehiclemanagement.vehicle.admin.entity.QVehicleModelEntity;
-import gimeast.vehiclemanagement.vehicle.admin.entity.QVehicleTrimEntity;
-import gimeast.vehiclemanagement.vehicle.admin.repository.custom.VehicleSearch;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
+import gimeast.vehiclemanagement.vehicle.entity.QVehicleBrandEntity;
+import gimeast.vehiclemanagement.vehicle.entity.QVehicleModelEntity;
+import gimeast.vehiclemanagement.vehicle.entity.QVehicleTrimEntity;
+import gimeast.vehiclemanagement.vehicle.repository.custom.VehicleSearch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
