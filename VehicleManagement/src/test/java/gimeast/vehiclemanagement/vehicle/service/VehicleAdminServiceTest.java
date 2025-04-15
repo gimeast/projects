@@ -19,12 +19,12 @@ class VehicleAdminServiceTest {
      * 자동차 회사 브랜드, 차종, 트림 저장
      */
     @Test
-    void saveVehicleSpecByAdmin() {
+    void saveVehicleSpec() {
         VehicleSpecDTO vehicleSpecDTO = new VehicleSpecDTO();
         vehicleSpecDTO.setBrandDTO(new VehicleBrandDTO(null, "HYUNDAI"));
         vehicleSpecDTO.setModelDTO(new VehicleModelDTO(null, "Grandeur", "2025"));
         vehicleSpecDTO.setTrimDTO(new VehicleTrimDTO(null, "2WD", "gasoline", "DCT8"));
 
-        vehicleAdminService.saveVehicleSpecByAdmin(vehicleSpecDTO);
+        vehicleAdminService.saveVehicleSpec(vehicleSpecDTO);
     }
 }

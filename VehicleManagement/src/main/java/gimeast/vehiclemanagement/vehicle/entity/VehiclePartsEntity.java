@@ -28,6 +28,4 @@ public class VehiclePartsEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
-
-    private String type;
 }

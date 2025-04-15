@@ -1,5 +1,6 @@
 package gimeast.vehiclemanagement.vehicle.entity;
 
+import gimeast.vehiclemanagement.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,7 +25,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString(exclude = {"model"})
-public class VehicleTrimEntity {
+public class VehicleTrimEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
