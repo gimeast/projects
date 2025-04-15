@@ -2,6 +2,10 @@ package gimeast.vehiclemanagement.vehicle.member.controller;
 
 import gimeast.vehiclemanagement.security.auth.CustomUserPrincipal;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenancePartsDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceRequestDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehiclePartsDTO;
 import gimeast.vehiclemanagement.vehicle.member.service.VehicleMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,7 +38,12 @@ public class VehicleMemberController {
     @PostMapping
     public ResponseEntity<String> saveVehicleInfo(@AuthenticationPrincipal CustomUserPrincipal user,
                                                   @RequestBody VehicleDTO vehicleDTO) {
-        vehicleMemberService.saveVehicle(user.getName(), vehicleDTO);
+        vehicleMemberService.saveVehicle(
+                user.getName(),
+                vehicleDTO.getNumberPlate(),
+                vehicleDTO.getKilometers(),
+                vehicleDTO.getTrim().getIdx());
+
         return new ResponseEntity<>("정보가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
     }
 
@@ -42,5 +51,24 @@ public class VehicleMemberController {
     public ResponseEntity<String> deleteVehicleInfo(@PathVariable Long memberVehicleIdx) {
         vehicleMemberService.deleteVehicle(memberVehicleIdx);
         return ResponseEntity.ok("삭제를 완료하였습니다.");
+    }
+
+    @GetMapping(value = "/parts")
+    public ResponseEntity<List<VehicleMaintenancePartsDTO>> getParts(Long memberVehicleIdx) {
+        List<VehicleMaintenancePartsDTO> list = vehicleMemberService.getVehicleParts(memberVehicleIdx);
+        return ResponseEntity.ok(list);
+    }
+
+    @PostMapping("/maintenance")
+    public ResponseEntity<String> saveVehicleMaintenance(@RequestBody VehicleMaintenanceRequestDTO dto) {
+        vehicleMemberService.saveVehicleMaintenance(dto.getMemberVehicleIdx(), dto.getTrimPartsIdx(), dto.getKilometers(), dto.getMemo());
+        return new ResponseEntity<>("정보가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/maintenance")
+    public ResponseEntity<List<VehicleMaintenanceDTO>> getVehicleMaintenanceList(Long memberVehicleIdx) {
+        //TODO: 페이징, 검색 추가
+        List<VehicleMaintenanceDTO> list = vehicleMemberService.getVehicleMaintenanceList(memberVehicleIdx);
+        return ResponseEntity.ok(list);
     }
 }

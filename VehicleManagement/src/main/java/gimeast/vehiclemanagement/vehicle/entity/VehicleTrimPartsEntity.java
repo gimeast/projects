@@ -3,6 +3,7 @@ package gimeast.vehiclemanagement.vehicle.entity;
 import gimeast.vehiclemanagement.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,17 +23,17 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Getter
-@ToString
+@ToString(exclude = {"trim", "parts"})
 public class VehicleTrimPartsEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_trim_idx", nullable = false)
     private VehicleTrimEntity trim;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_parts_idx", nullable = false)
     private VehiclePartsEntity parts;
 
