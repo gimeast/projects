@@ -1,5 +1,7 @@
 package gimeast.vehiclemanagement.vehicle.member.controller;
 
+import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
+import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
 import gimeast.vehiclemanagement.security.auth.CustomUserPrincipal;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
@@ -9,6 +11,7 @@ import gimeast.vehiclemanagement.vehicle.dto.VehiclePartsDTO;
 import gimeast.vehiclemanagement.vehicle.member.service.VehicleMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -66,9 +69,8 @@ public class VehicleMemberController {
     }
 
     @GetMapping("/maintenance")
-    public ResponseEntity<List<VehicleMaintenanceDTO>> getVehicleMaintenanceList(Long memberVehicleIdx) {
-        //TODO: 페이징, 검색 추가
-        List<VehicleMaintenanceDTO> list = vehicleMemberService.getVehicleMaintenanceList(memberVehicleIdx);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<PageResponseDTO<VehicleMaintenanceDTO>> getVehicleMaintenanceList(String search, PageRequestDTO pageRequestDTO, Long memberVehicleIdx) {
+        PageResponseDTO<VehicleMaintenanceDTO> page = vehicleMemberService.getVehicleMaintenanceList(search, pageRequestDTO, memberVehicleIdx);
+        return ResponseEntity.ok(page);
     }
 }

@@ -1,12 +1,13 @@
 package gimeast.vehiclemanagement.vehicle.member.service;
 
+import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
+import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
 import gimeast.vehiclemanagement.member.entity.MemberEntity;
 import gimeast.vehiclemanagement.member.repository.MemberRepository;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenancePartsDTO;
-import gimeast.vehiclemanagement.vehicle.dto.VehiclePartsDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleMaintenanceEntity;
-import gimeast.vehiclemanagement.vehicle.entity.VehiclePartsEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimPartsEntity;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleMaintenanceRepository;
@@ -18,6 +19,8 @@ import gimeast.vehiclemanagement.vehicle.entity.VehicleEntity;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,7 +82,10 @@ public class VehicleMemberService {
         vehicleMaintenanceRepository.save(maintenance);
     }
 
-    public List<VehicleMaintenanceDTO> getVehicleMaintenanceList(Long memberVehicleIdx) {
-        return vehicleMaintenanceRepository.findByMemberVehicleIdx(memberVehicleIdx);
+    public PageResponseDTO<VehicleMaintenanceDTO> getVehicleMaintenanceList(String search, PageRequestDTO pageRequestDTO, Long memberVehicleIdx) {
+        Pageable pageable = pageRequestDTO.getPageable();
+
+        Page<VehicleMaintenanceDTO> page = vehicleMaintenanceRepository.vehicleMaintenanceList(search, pageable, memberVehicleIdx);
+        return PageResponseDTO.toPageResponse(page);
     }
 }

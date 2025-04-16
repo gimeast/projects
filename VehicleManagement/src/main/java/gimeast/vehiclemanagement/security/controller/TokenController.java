@@ -69,11 +69,10 @@ public class TokenController {
             return handleException("No Mid", 400); //400 Bad Request
         }
 
-        //Access Token이 만료되었는지 확인
         String accessToken = accessTokenStr.substring(7);
 
         try {
-            //Refresh Token 검증
+            //Access Token이 만료되었는지 확인
             jwtUtil.validateToken(accessToken);
 
             //아직 만료기한이 남아 있는 상황

@@ -75,7 +75,7 @@ public class VehicleAdminService {
     public PageResponseDTO<VehicleSpecDTO> getVehicleSpecList(String search, PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable();
 
-        Page<VehicleSpecDTO> page = vehicleTrimRepository.list(search, pageable);
+        Page<VehicleSpecDTO> page = vehicleTrimRepository.vehicleSpecList(search, pageable);
         return PageResponseDTO.toPageResponse(page);
     }
 
