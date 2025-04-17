@@ -1,4 +1,4 @@
-import { requestRefreshToken, saveToken } from "../api.js";
+import { requestRefreshToken, saveToken } from "../jwtApi.js";
 import axios from "axios";
 import Cookies from "universal-cookie";
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie'
-import jwtAxios from "./custom/customAxios.js";
+import jwtAxios from "./custom/jwtAxios.js";
 
 const url = "http://localhost:8080/api/v1"
 export const makeToken = async (mid, mpw) => {

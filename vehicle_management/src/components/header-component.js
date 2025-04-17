@@ -38,7 +38,6 @@ class HeaderComponent extends HTMLElement {
 
         // JWT 토큰에서 역할 정보 추출
         const decodedToken = this.parseJwt(accessToken);
-        console.log('decodedToken:', decodedToken)
         return decodedToken?.roleSet;
     }
 

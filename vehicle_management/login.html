@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
+    <header-component></header-component>
+
     <div class="container">
-        <header-component></header-component>
         <h1>Login</h1>
         <div>
             <label>
@@ -21,9 +23,9 @@
         </div>
     </div>
 
-    <script type="module" src="src/components/header-component.js"></script>
+    <script type="module" src="/src/components/header-component.js"></script>
     <script type="module">
-        import { makeToken, saveToken } from '/src/api.js'
+        import { makeToken, saveToken } from '/src/jwtApi.js'
 
         document.querySelector(".loginBtn").addEventListener("click", () => {
             const mid = document.querySelector("input[name='mid']").value
