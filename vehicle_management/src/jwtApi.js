@@ -1,8 +1,9 @@
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import jwtAxios from "./custom/jwtAxios.js";
+import API_BASE_URL from "./config/apiConfig.js";
 
-const url = "http://localhost:8080/api/v1"
+const url = API_BASE_URL
 export const makeToken = async (mid, mpw) => {
     const path = url + "/token/make"
     const data = { mid, mpw }

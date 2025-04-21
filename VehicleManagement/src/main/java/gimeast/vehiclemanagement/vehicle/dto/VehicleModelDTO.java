@@ -11,18 +11,15 @@ import lombok.NoArgsConstructor;
 public class VehicleModelDTO {
     private Long idx;
     private String name;
-    private String year;
 
     public VehicleModelDTO(VehicleModelEntity entity) {
         this.idx = entity.getIdx();
         this.name = entity.getName();
-        this.year = entity.getYear();
     }
 
     public VehicleModelEntity toEntity() {
         return VehicleModelEntity.builder()
                 .name(name)
-                .year(year)
                 .build();
     }
 }

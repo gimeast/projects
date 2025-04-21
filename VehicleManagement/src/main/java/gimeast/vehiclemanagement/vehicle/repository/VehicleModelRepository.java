@@ -13,7 +13,7 @@ public interface VehicleModelRepository extends JpaRepository<VehicleModelEntity
     Optional<VehicleModelEntity> findByNameAndBrand(String name, VehicleBrandEntity brand);
     int countByBrand(VehicleBrandEntity brand);
 
-    @Query("SELECT new gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO(model.idx, model.name, model.year) " +
+    @Query("SELECT new gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO(model.idx, model.name) " +
             "FROM VehicleModelEntity model " +
             "WHERE model.brand.idx = :brandIdx")
     List<VehicleModelDTO> findAllDTOListByBrandIdx(Long brandIdx);

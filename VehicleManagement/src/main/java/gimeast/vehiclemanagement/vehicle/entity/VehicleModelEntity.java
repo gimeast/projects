@@ -33,8 +33,6 @@ public class VehicleModelEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    private String year;
-
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_brand_idx")

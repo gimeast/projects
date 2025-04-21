@@ -12,7 +12,7 @@ public interface VehicleRepository extends JpaRepository<VehicleEntity, Long> {
     @Query("SELECT new gimeast.vehiclemanagement.vehicle.dto.VehicleDTO(" +
             "v.idx, v.numberPlate, v.kilometers, " +
                 "new gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO(b.idx, b.name), " +
-                "new gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO(m.idx, m.name, m.year), " +
+                "new gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO(m.idx, m.name), " +
                 "new gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO(t.idx, t.drivetrain, t.fuelType, t.transmission)) " +
             "FROM VehicleEntity v " +
             "JOIN v.brand b " +

@@ -3,132 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/src/style.css">
-    <style>
-        .search {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: #f9fafb;
-            border-radius: 6px;
-        }
-
-        .search label {
-            margin-right: 10px;
-            font-weight: 600;
-            color: #444;
-        }
-
-        .search input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid #e1e4e8;
-            border-radius: 4px;
-            margin-right: 10px;
-            font-size: 14px;
-        }
-
-        .search button {
-            padding: 10px 20px;
-            background-color: #4a6bdf;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .search button:hover {
-            background-color: #3a59c7;
-        }
-
-        /* 차량 리스트 헤더 스타일 */
-        .vehicle-list-header {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            padding: 12px 15px;
-            background-color: #f0f2f5;
-            border-radius: 6px 6px 0 0;
-            font-weight: 600;
-            border-bottom: 2px solid #e1e4e8;
-        }
-
-        .header-item {
-            padding: 8px;
-            text-align: center;
-        }
-
-        /* 차량 리스트 아이템 스타일 */
-        .vehicle-list {
-            border: 1px solid #e1e4e8;
-            border-radius: 0 0 6px 6px;
-            overflow: hidden;
-        }
-
-        .vehicle-item {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            padding: 12px 15px;
-            border-bottom: 1px solid #e1e4e8;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .vehicle-item:last-child {
-            border-bottom: none;
-        }
-
-        .vehicle-item:hover {
-            background-color: #f9fafb;
-        }
-
-        .vehicle-data {
-            padding: 8px;
-            text-align: center;
-        }
-
-        /* 페이지네이션 스타일 */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 5px;
-        }
-
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #e1e4e8;
-            background-color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .pagination button:hover {
-            background-color: #f5f6f8;
-        }
-
-        .pagination button.active {
-            background-color: #4a6bdf;
-            color: white;
-            border-color: #4a6bdf;
-        }
-
-        /* 에러 메시지와 데이터 없음 스타일 */
-        .no-data, .error-message {
-            padding: 30px;
-            text-align: center;
-            color: #666;
-            font-style: italic;
-        }
-
-        .error-message {
-            color: #e74c3c;
-        }
-    </style>
-
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/pagination.css">
+    <link rel="stylesheet" href="/src/css/admin-vehicle-list.css">
 </head>
 <body>
 <header-component></header-component>
@@ -140,26 +17,88 @@
         <button id="searchBtn">검색</button>
     </div>
 
+    <div class="action-buttons">
+        <button id="addBtn">차량 등록</button>
+        <button id="deleteBtn">선택 차량 삭제</button>
+    </div>
+
     <div class="vehicle-list-header">
         <div class="header-item">브랜드</div>
         <div class="header-item">모델</div>
-        <div class="header-item">연식</div>
         <div class="header-item">구동방식</div>
         <div class="header-item">연료타입</div>
         <div class="header-item">미션타입</div>
     </div>
+
     <div class="vehicle-list" id="vehicleList"></div>
     <div id="pagination" class="pagination"></div>
-
 </div>
+
+<!-- 차량 등록 모달 -->
+<div class="modal-background" id="vehicleModal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>차량 정보 등록</h2>
+            <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- 브랜드 -->
+            <div class="form-group">
+                <label for="brandInput">브랜드</label>
+                <div class="input-wrapper">
+                    <input type="text" id="brandInput">
+                </div>
+            </div>
+
+            <!-- 모델 -->
+            <div class="form-group">
+                <label for="modelInput">모델</label>
+                <div class="input-wrapper">
+                    <input type="text" id="modelInput">
+                </div>
+            </div>
+
+            <!-- 구동방식 -->
+            <div class="form-group">
+                <label for="drivetrainInput">구동방식</label>
+                <div class="input-wrapper">
+                    <input type="text" id="drivetrainInput">
+                </div>
+            </div>
+
+            <!-- 연료타입 -->
+            <div class="form-group">
+                <label for="fuelTypeInput">연료타입</label>
+                <div class="input-wrapper">
+                    <input type="text" id="fuelTypeInput">
+                </div>
+            </div>
+
+            <!-- 미션타입 -->
+            <div class="form-group">
+                <label for="transmissionInput">미션타입</label>
+                <div class="input-wrapper">
+                    <input type="text" id="transmissionInput">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" id="cancelBtn">취소</button>
+            <button class="btn-save" id="saveVehicleBtn">저장</button>
+        </div>
+    </div>
+</div>
+
+
 <script type="module" src="/src/components/header-component.js"></script>
 <script type="module">
-    import { getSpecList } from '/src/adminApi.js'
+    import { getSpecList, saveSpec } from '/src/adminApi.js'
     import { renderPagination } from '/src/common/pagination-utils.js'
 
     let page = 1;
     let search = '';
-    let totalPages = 1; // 총 페이지 수 저장 변수
+    let totalPages = 1;
+    const requiredFields = ['brand', 'model', 'drivetrain', 'fuelType', 'transmission'];
 
     function initPage() {
         document.getElementById('searchBtn').addEventListener('click', () => {
@@ -176,8 +115,65 @@
             }
         });
 
+        document.getElementById('addBtn').addEventListener('click', () => {
+            openModal();
+        });
+        document.getElementById('modalClose').addEventListener('click', () => {
+            closeModal();
+        });
+        document.getElementById('cancelBtn').addEventListener('click', () => {
+            closeModal();
+        });
+
+        document.getElementById('saveVehicleBtn').addEventListener('click', () => {
+            saveVehicleInfo();
+        });
+
         loadVehicles();
     }
+
+    async function saveVehicleInfo() {
+
+        try {
+            requiredFields.forEach(field => {
+                const inputValue = document.getElementById(`${field}Input`).value;
+
+                if(inputValue.trim() === '') {
+                    throw Error('모든 정보를 입력해주세요.');
+                }
+            });
+
+            const brandName = document.getElementById('brandInput').value;
+            const modelName = document.getElementById('modelInput').value;
+            const drivetrain = document.getElementById('drivetrainInput').value;
+            const fuelType = document.getElementById('fuelTypeInput').value;
+            const transmission = document.getElementById('transmissionInput').value;
+
+            const data = await saveSpec(brandName, modelName, drivetrain, fuelType, transmission);
+            alert(data);
+
+            closeModal();
+
+        } catch(error) {
+            alert(error.message);
+            return;
+        }
+
+        await loadVehicles();
+    }
+
+    function openModal() {
+        document.getElementById('vehicleModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        requiredFields.forEach(field => {
+            document.getElementById(`${field}Input`).value = '';
+        });
+
+        document.getElementById('vehicleModal').style.display = 'none';
+    }
+
 
     async function loadVehicles() {
         try {
@@ -208,7 +204,6 @@
         vehicles.forEach(vehicle => {
             const brand = vehicle.brandDTO?.name || '';
             const model = vehicle.modelDTO?.name || '';
-            const year = vehicle.modelDTO?.year || '';
             const drivetrain = vehicle.trimDTO?.drivetrain || '';
             const fuelType = vehicle.trimDTO?.fuelType || '';
             const transmission = vehicle.trimDTO?.transmission || '';
@@ -219,7 +214,6 @@
             vehicleItem.innerHTML = `
                 <div class="vehicle-data">${brand}</div>
                 <div class="vehicle-data">${model}</div>
-                <div class="vehicle-data">${year}</div>
                 <div class="vehicle-data">${drivetrain}</div>
                 <div class="vehicle-data">${fuelType}</div>
                 <div class="vehicle-data">${transmission}</div>
@@ -239,9 +233,8 @@
         vehicleList.innerHTML = `<div class="error-message">오류: ${errorMessage}</div>`;
     }
 
-    // 페이지 로드 시 초기화 함수 실행
     document.addEventListener('DOMContentLoaded', initPage);
-
 </script>
+
 </body>
 </html>
