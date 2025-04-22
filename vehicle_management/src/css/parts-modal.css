@@ -1,0 +1,274 @@
+/* parts-modal.css */
+
+/* 모달 배경 */
+.parts-modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 모달 컨테이너 */
+.parts-modal-container {
+    background-color: white;
+    border-radius: 8px;
+    width: 550px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: parts-modal-appear 0.3s ease-out;
+}
+
+@keyframes parts-modal-appear {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 모달 헤더 */
+.parts-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.parts-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+}
+
+.parts-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.parts-modal-close:hover {
+    color: #333;
+}
+
+/* 모달 본문 */
+.parts-modal-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* 부품 추가 폼 */
+.parts-modal-body > div:first-child {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e1e4e8;
+}
+
+.parts-modal-body > div:first-child label {
+    font-weight: 500;
+    color: #333;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.parts-modal-body > div:first-child input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: border-color 0.2s;
+}
+
+.parts-modal-body > div:first-child input:focus {
+    border-color: #4a6bdf;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 107, 223, 0.2);
+}
+
+#partsAddBtn {
+    padding: 8px 16px;
+    background-color: #4a6bdf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+#partsAddBtn:hover {
+    background-color: #3a59c7;
+}
+
+/* 부품 테이블 */
+.parts-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.parts-table thead {
+    background-color: #f0f2f5;
+}
+
+.parts-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e1e4e8;
+}
+
+.parts-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e1e4e8;
+    vertical-align: middle;
+}
+
+.parts-table tr:last-child td {
+    border-bottom: none;
+}
+
+.parts-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* 교체 주기 입력 필드 */
+.parts-interval-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.parts-interval-input:focus {
+    border-color: #4a6bdf;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 107, 223, 0.2);
+}
+
+/* 모달 푸터 */
+.parts-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e1e4e8;
+}
+
+/* 저장 버튼 */
+#trimPartsBtn {
+    padding: 8px 16px;
+    background-color: #4a6bdf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#trimPartsBtn:hover {
+    background-color: #3a59c7;
+}
+
+/* 닫기 버튼 */
+.parts-modal-btn {
+    padding: 8px 16px;
+    background-color: #f1f3f5;
+    border: 1px solid #ddd;
+    color: #333;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.parts-modal-btn:hover {
+    background-color: #e9ecef;
+}
+
+/* 모달 오버레이 스타일 */
+#partsModal[style*="display: block"] .parts-modal-background {
+    display: flex !important;
+}
+
+/* 비어 있을 때 메시지 스타일 */
+#partsTableBody tr td[colspan="2"] {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* 로딩 인디케이터 (옵션) */
+.parts-loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.parts-loading::after {
+    content: "...";
+    animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+    0%, 20% { content: "."; }
+    40% { content: ".."; }
+    60%, 100% { content: "..."; }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .parts-modal-body > div:first-child {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .parts-modal-body > div:first-child label {
+        margin-bottom: 8px;
+    }
+
+    .parts-modal-body > div:first-child input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    #partsAddBtn {
+        width: 100%;
+    }
+}

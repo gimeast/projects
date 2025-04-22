@@ -1,4 +1,3 @@
-// src/components/vehicle-modal-component.js
 import { saveSpec } from '/src/adminApi.js'
 
 class VehicleModal extends HTMLElement {
@@ -65,7 +64,6 @@ class VehicleModal extends HTMLElement {
     </div>
     `;
 
-        // 이벤트 리스너 설정
         this.setupEventListeners();
     }
 

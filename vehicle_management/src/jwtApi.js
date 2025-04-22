@@ -5,7 +5,7 @@ import API_BASE_URL from "./config/apiConfig.js";
 
 const url = API_BASE_URL
 export const makeToken = async (mid, mpw) => {
-    const path = url + "/token/make"
+    const path = `${ url }/token/make`
     const data = { mid, mpw }
     const res = await axios.post(path, data);
     return res.data;
@@ -18,7 +18,7 @@ export const saveToken = (tokenName, tokenValue) => {
 }
 
 export const getSamples = async (pageNum) => {
-    const path = url + "/samples/list"
+    const path = `${ url }/samples/list`
     const res = await jwtAxios.get(path);
     return res.data
 }
@@ -32,7 +32,7 @@ export async function requestRefreshToken() {
         throw Error("Cannot request refresh..")
     }
 
-    const path = url + "/token/refresh"
+    const path = `${ url }/token/refresh`
     const header = {
         'content-type': 'application/x-www-form-urlencoded',
         'Authorization': 'Bearer ' + accessToken

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/src/css/style.css">
     <link rel="stylesheet" href="/src/css/pagination.css">
     <link rel="stylesheet" href="/src/css/admin-vehicle-list.css">
+    <link rel="stylesheet" href="/src/css/parts-modal.css">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 </head>
 <body>
@@ -40,9 +41,11 @@
 </div>
 
 <vehicle-modal-component></vehicle-modal-component>
+<parts-modal-component></parts-modal-component>
 
 <script type="module" src="/src/components/header-component.js"></script>
 <script type="module" src="/src/components/vehicle-modal-component.js"></script>
+<script type="module" src="/src/components/parts-modal-component.js"></script>
 <script type="module">
     import { getSpecList, deleteSpecList } from '/src/adminApi.js'
     import { renderPagination } from '/src/common/pagination-utils.js'
@@ -94,6 +97,8 @@
 
         try {
             const trimIdxs = Array.from(checkedBoxes).map(checkbox => checkbox.value);
+            //todo:trimParts도 삭제해야함.
+
             const data = await deleteSpecList(trimIdxs);
             alert(data);
 
@@ -147,7 +152,7 @@
                 <div class="vehicle-data">${fuelType}</div>
                 <div class="vehicle-data">${transmission}</div>
                 <div class="vehicle-data">
-                <button class="parts-btn"><i class="fi fi-br-search"></i></button>
+                    <i class="fi fi-br-search parts-btn"></i>
                 </div>
             `;
 
@@ -159,6 +164,10 @@
             const partsBtn = vehicleItem.querySelector('.parts-btn');
             partsBtn.addEventListener('click', (event) => {
                 event.stopPropagation();
+
+
+                const partsModal = document.querySelector('parts-modal-component');
+                partsModal.open(vehicle.trimDTO.idx);
             });
 
             vehicleList.appendChild(vehicleItem);

@@ -9,6 +9,7 @@ import gimeast.vehiclemanagement.vehicle.dto.VehiclePartsDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimPartsDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimPartsRequestDTO;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleBrandEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleModelEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehiclePartsEntity;
@@ -119,6 +120,7 @@ public class VehicleAdminService {
     @Transactional
     public void deleteVehicleSpecs(List<Long> trimIdx) {
         for (Long idx : trimIdx) {
+            deleteVehicleTrimPartsByTrimIdxList(idx);
             deleteVehicleSpec(idx);
         }
     }
@@ -148,7 +150,13 @@ public class VehicleAdminService {
     }
 
     @Transactional
-    public void saveVehicleTrimParts(int replacementInterval, Long trimIdx, Long partsIdx) {
+    public void saveVehicleTrimPartsList(List<VehicleTrimPartsRequestDTO> dtoList) {
+        for (VehicleTrimPartsRequestDTO dto : dtoList) {
+            saveTrimParts(dto.getReplacementInterval(), dto.getTrimIdx(), dto.getPartsIdx());
+        }
+    }
+
+    private void saveTrimParts(int replacementInterval, Long trimIdx, Long partsIdx) {
         Optional<VehicleTrimEntity> trimOptional = vehicleTrimRepository.findById(trimIdx);
         Optional<VehiclePartsEntity> partsOptional = vehiclePartsRepository.findById(partsIdx);
 
@@ -173,5 +181,13 @@ public class VehicleAdminService {
 
     public List<VehicleTrimPartsDTO> getVehicleTrimParts(Long trimIdx) {
         return vehicleTrimPartsRepository.findAllDTOByTrimIdx(trimIdx);
+    }
+
+    public void deleteVehicleTrimParts(Long trimPartsIdx) {
+        vehicleTrimPartsRepository.deleteById(trimPartsIdx);
+    }
+
+    public void deleteVehicleTrimPartsByTrimIdxList(Long trimIdx) {
+        vehicleTrimPartsRepository.deleteByTrimIdx(trimIdx);
     }
 }

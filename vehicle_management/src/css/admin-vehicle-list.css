@@ -252,3 +252,19 @@
 .btn-save:hover {
     background-color: #3a59c7;
 }
+
+.parts-btn {
+    font-size: 15px;
+    color: #4a6bdf;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.parts-btn:hover {
+    color: #3a59c7;
+    background-color: #f0f2f5;
+    transform: scale(1.1);
+}

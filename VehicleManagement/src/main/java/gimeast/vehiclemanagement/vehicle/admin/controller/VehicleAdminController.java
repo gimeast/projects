@@ -64,8 +64,8 @@ public class VehicleAdminController {
     }
 
     @PostMapping(value = "/delete")
-    public ResponseEntity<String> deleteSpecs(@RequestBody List<Long> trimIdx) {
-        vehicleAdminService.deleteVehicleSpecs(trimIdx);
+    public ResponseEntity<String> deleteSpecs(@RequestBody List<Long> trimIdxList) {
+        vehicleAdminService.deleteVehicleSpecs(trimIdxList);
         return ResponseEntity.ok("삭제를 완료하였습니다.");
     }
 
@@ -106,8 +106,14 @@ public class VehicleAdminController {
     }
 
     @PostMapping(value = "/trim/parts")
-    public ResponseEntity<String> saveTrimParts(@RequestBody VehicleTrimPartsRequestDTO dto) {
-        vehicleAdminService.saveVehicleTrimParts(dto.getReplacementInterval(), dto.getTrimIdx(), dto.getPartsIdx());
+    public ResponseEntity<String> saveTrimParts(@RequestBody List<VehicleTrimPartsRequestDTO> dtoList) {
+        vehicleAdminService.saveVehicleTrimPartsList(dtoList);
         return new ResponseEntity<>("해당 트림의 부품 및 교환 주기를 저장하였습니다.", HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(value = "/trim/parts")
+    public ResponseEntity<String> deleteTrimParts(Long trimPartsIdx) {
+        vehicleAdminService.deleteVehicleTrimParts(trimPartsIdx);
+        return new ResponseEntity<>("해당 트림의 부품 및 교환 주기를 삭제하였습니다.", HttpStatus.CREATED);
     }
 }
