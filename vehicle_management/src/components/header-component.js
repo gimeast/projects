@@ -106,5 +106,3 @@ class HeaderComponent extends HTMLElement {
 
 // 웹 컴포넌트 등록
 customElements.define("header-component", HeaderComponent);
-
-export default HeaderComponent;

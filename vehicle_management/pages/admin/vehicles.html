@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/src/css/style.css">
     <link rel="stylesheet" href="/src/css/pagination.css">
     <link rel="stylesheet" href="/src/css/admin-vehicle-list.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 </head>
 <body>
 <header-component></header-component>
@@ -23,83 +24,32 @@
     </div>
 
     <div class="vehicle-list-header">
-        <div class="header-item"><input type="checkbox" name="deleteItems"></div>
+        <div class="header-item">
+            <input type="checkbox" name="deleteItems">
+        </div>
         <div class="header-item">브랜드</div>
         <div class="header-item">모델</div>
         <div class="header-item">구동방식</div>
         <div class="header-item">연료타입</div>
         <div class="header-item">미션타입</div>
+        <div class="header-item">소모품</div>
     </div>
 
     <div class="vehicle-list" id="vehicleList"></div>
     <div id="pagination" class="pagination"></div>
 </div>
 
-<!-- 차량 등록 모달 -->
-<div class="modal-background" id="vehicleModal">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h2>차량 정보 등록</h2>
-            <button class="modal-close" id="modalClose">&times;</button>
-        </div>
-        <div class="modal-body">
-            <!-- 브랜드 -->
-            <div class="form-group">
-                <label for="brandInput">브랜드</label>
-                <div class="input-wrapper">
-                    <input type="text" id="brandInput">
-                </div>
-            </div>
-
-            <!-- 모델 -->
-            <div class="form-group">
-                <label for="modelInput">모델</label>
-                <div class="input-wrapper">
-                    <input type="text" id="modelInput">
-                </div>
-            </div>
-
-            <!-- 구동방식 -->
-            <div class="form-group">
-                <label for="drivetrainInput">구동방식</label>
-                <div class="input-wrapper">
-                    <input type="text" id="drivetrainInput">
-                </div>
-            </div>
-
-            <!-- 연료타입 -->
-            <div class="form-group">
-                <label for="fuelTypeInput">연료타입</label>
-                <div class="input-wrapper">
-                    <input type="text" id="fuelTypeInput">
-                </div>
-            </div>
-
-            <!-- 미션타입 -->
-            <div class="form-group">
-                <label for="transmissionInput">미션타입</label>
-                <div class="input-wrapper">
-                    <input type="text" id="transmissionInput">
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-cancel" id="cancelBtn">취소</button>
-            <button class="btn-save" id="saveVehicleBtn">저장</button>
-        </div>
-    </div>
-</div>
-
+<vehicle-modal-component></vehicle-modal-component>
 
 <script type="module" src="/src/components/header-component.js"></script>
+<script type="module" src="/src/components/vehicle-modal-component.js"></script>
 <script type="module">
-    import { getSpecList, saveSpec, deleteSpecList } from '/src/adminApi.js'
+    import { getSpecList, deleteSpecList } from '/src/adminApi.js'
     import { renderPagination } from '/src/common/pagination-utils.js'
 
     let page = 1;
     let search = '';
     let totalPages = 1;
-    const requiredFields = ['brand', 'model', 'drivetrain', 'fuelType', 'transmission'];
 
     function initPage() {
         document.getElementById('searchBtn').addEventListener('click', () => {
@@ -117,17 +67,14 @@
         });
 
         document.getElementById('addBtn').addEventListener('click', () => {
-            openModal();
-        });
-        document.getElementById('modalClose').addEventListener('click', () => {
-            closeModal();
-        });
-        document.getElementById('cancelBtn').addEventListener('click', () => {
-            closeModal();
+            const vehicleModal = document.querySelector('vehicle-modal-component');
+            vehicleModal.open(() => {
+                loadVehicles();
+            });
         });
 
-        document.getElementById('saveVehicleBtn').addEventListener('click', () => {
-            saveVehicleInfo();
+        document.addEventListener('vehicle-saved', () => {
+            loadVehicles();
         });
 
         document.getElementById('deleteBtn').addEventListener('click', () => {
@@ -155,45 +102,6 @@
             alert(error.message);
         }
     }
-
-    async function saveVehicleInfo() {
-        try {
-            requiredFields.forEach(field => {
-                const inputValue = document.getElementById(`${field}Input`).value;
-
-                if(inputValue.trim() === '') {
-                    throw Error('모든 정보를 입력해주세요.');
-                }
-            });
-
-            const brandName = document.getElementById('brandInput').value;
-            const modelName = document.getElementById('modelInput').value;
-            const drivetrain = document.getElementById('drivetrainInput').value;
-            const fuelType = document.getElementById('fuelTypeInput').value;
-            const transmission = document.getElementById('transmissionInput').value;
-
-            const data = await saveSpec(brandName, modelName, drivetrain, fuelType, transmission);
-            alert(data);
-
-            closeModal();
-            await loadVehicles();
-        } catch(error) {
-            alert(error.message);
-        }
-    }
-
-    function openModal() {
-        document.getElementById('vehicleModal').style.display = 'block';
-    }
-
-    function closeModal() {
-        requiredFields.forEach(field => {
-            document.getElementById(`${field}Input`).value = '';
-        });
-
-        document.getElementById('vehicleModal').style.display = 'none';
-    }
-
 
     async function loadVehicles() {
         try {
@@ -238,11 +146,19 @@
                 <div class="vehicle-data">${drivetrain}</div>
                 <div class="vehicle-data">${fuelType}</div>
                 <div class="vehicle-data">${transmission}</div>
+                <div class="vehicle-data">
+                <button class="parts-btn"><i class="fi fi-br-search"></i></button>
+                </div>
             `;
 
             vehicleItem.addEventListener('click', () => {
                 const checkbox = vehicleItem.querySelector('input[type="checkbox"]');
                 checkbox.checked = !checkbox.checked;
+            });
+
+            const partsBtn = vehicleItem.querySelector('.parts-btn');
+            partsBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
             });
 
             vehicleList.appendChild(vehicleItem);
