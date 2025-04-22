@@ -34,8 +34,14 @@ public class VehicleAdminController {
     private final VehicleAdminService vehicleAdminService;
 
     @PostMapping
-    public ResponseEntity<String> saveSpec(@RequestBody VehicleSpecDTO request) {
-        vehicleAdminService.saveVehicleSpec(request);
+    public ResponseEntity<String> saveSpec(@RequestBody VehicleSpecDTO vehicleSpecDTO) {
+        vehicleAdminService.saveVehicleSpec(vehicleSpecDTO);
+        return new ResponseEntity<>("정보가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<String> saveSpecList(@RequestBody List<VehicleSpecDTO> vehicleSpecDTOList) {
+        vehicleAdminService.saveVehicleSpecList(vehicleSpecDTOList);
         return new ResponseEntity<>("정보가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
     }
 

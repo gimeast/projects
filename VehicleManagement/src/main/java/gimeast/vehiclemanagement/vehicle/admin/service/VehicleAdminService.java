@@ -72,6 +72,13 @@ public class VehicleAdminService {
         vehicleTrimRepository.save(newTrimEntity);
     }
 
+    @Transactional
+    public void saveVehicleSpecList(List<VehicleSpecDTO> vehicleSpecDTOList) {
+        for (VehicleSpecDTO vehicleSpecDTO : vehicleSpecDTOList) {
+            saveVehicleSpec(vehicleSpecDTO);
+        }
+    }
+
     public PageResponseDTO<VehicleSpecDTO> getVehicleSpecList(String search, PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable();
 
