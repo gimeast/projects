@@ -23,6 +23,7 @@
     </div>
 
     <div class="vehicle-list-header">
+        <div class="header-item"><input type="checkbox" name="deleteItems"></div>
         <div class="header-item">브랜드</div>
         <div class="header-item">모델</div>
         <div class="header-item">구동방식</div>
@@ -92,7 +93,7 @@
 
 <script type="module" src="/src/components/header-component.js"></script>
 <script type="module">
-    import { getSpecList, saveSpec } from '/src/adminApi.js'
+    import { getSpecList, saveSpec, deleteSpecList } from '/src/adminApi.js'
     import { renderPagination } from '/src/common/pagination-utils.js'
 
     let page = 1;
@@ -129,11 +130,33 @@
             saveVehicleInfo();
         });
 
+        document.getElementById('deleteBtn').addEventListener('click', () => {
+            deleteVehicleInfo();
+        });
+
         loadVehicles();
     }
 
-    async function saveVehicleInfo() {
+    async function deleteVehicleInfo() {
+        const checkedBoxes = document.querySelectorAll('#vehicleList input[type="checkbox"]:checked');
 
+        if (checkedBoxes.length === 0) {
+            alert('삭제할 항목을 선택해주세요.');
+            return;
+        }
+
+        try {
+            const trimIdxs = Array.from(checkedBoxes).map(checkbox => checkbox.value);
+            const data = await deleteSpecList(trimIdxs);
+            alert(data);
+
+            await loadVehicles();
+        } catch(error) {
+            alert(error.message);
+        }
+    }
+
+    async function saveVehicleInfo() {
         try {
             requiredFields.forEach(field => {
                 const inputValue = document.getElementById(`${field}Input`).value;
@@ -153,13 +176,10 @@
             alert(data);
 
             closeModal();
-
+            await loadVehicles();
         } catch(error) {
             alert(error.message);
-            return;
         }
-
-        await loadVehicles();
     }
 
     function openModal() {
@@ -212,6 +232,7 @@
             vehicleItem.className = 'vehicle-item';
 
             vehicleItem.innerHTML = `
+                <div class="vehicle-data"><input type="checkbox" name="deleteItems" value="${vehicle.trimDTO.idx}"></div>
                 <div class="vehicle-data">${brand}</div>
                 <div class="vehicle-data">${model}</div>
                 <div class="vehicle-data">${drivetrain}</div>
@@ -220,7 +241,8 @@
             `;
 
             vehicleItem.addEventListener('click', () => {
-                window.location.href = `/admin/vehicles/${vehicle.trimDTO.idx}`;
+                const checkbox = vehicleItem.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
             });
 
             vehicleList.appendChild(vehicleItem);

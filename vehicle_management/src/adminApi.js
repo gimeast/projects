@@ -31,4 +31,11 @@ export const saveSpec = async (brandName, modelName, drivetrain, fuelType, trans
     return res.data
 }
 
+export const deleteSpecList = async (trimIdxs) => {
+    const path = url + `/admin/vehicles/delete`
+
+    const res = await jwtAxios.post(path, trimIdxs);
+    return res.data;
+}
+
 
