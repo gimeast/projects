@@ -3,11 +3,14 @@ package gimeast.vehiclemanagement.vehicle.member.controller;
 import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
 import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
 import gimeast.vehiclemanagement.security.auth.CustomUserPrincipal;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenancePartsDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceRequestDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehiclePartsDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.member.service.VehicleMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -72,5 +75,23 @@ public class VehicleMemberController {
     public ResponseEntity<PageResponseDTO<VehicleMaintenanceDTO>> getVehicleMaintenanceList(String search, PageRequestDTO pageRequestDTO, Long memberVehicleIdx) {
         PageResponseDTO<VehicleMaintenanceDTO> page = vehicleMemberService.getVehicleMaintenanceList(search, pageRequestDTO, memberVehicleIdx);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping(value = "/brand")
+    public ResponseEntity<List<VehicleBrandDTO>> getBrandList() {
+        List<VehicleBrandDTO> brandList = vehicleMemberService.getBrandList();
+        return ResponseEntity.ok(brandList);
+    }
+
+    @GetMapping(value = "/model")
+    public ResponseEntity<List<VehicleModelDTO>> getModelList(Long brandIdx) {
+        List<VehicleModelDTO> modelList = vehicleMemberService.getModelListByBrandIdx(brandIdx);
+        return ResponseEntity.ok(modelList);
+    }
+
+    @GetMapping(value = "/trim")
+    public ResponseEntity<List<VehicleTrimDTO>> getTrimList(Long modelIdx) {
+        List<VehicleTrimDTO> trimList = vehicleMemberService.getTrimDTOList(modelIdx);
+        return ResponseEntity.ok(trimList);
     }
 }

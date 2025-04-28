@@ -76,8 +76,8 @@ class VehicleModal extends HTMLElement {
             this.close();
         });
 
-        this.querySelector('#saveVehicleBtn').addEventListener('click', () => {
-            this.saveVehicleInfo();
+        this.querySelector('#saveVehicleBtn').addEventListener('click', async () => {
+            await this.saveVehicleInfo();
         });
     }
 

@@ -4,13 +4,88 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/user-vehicle-list.css">
+    <link rel="stylesheet" href="/src/css/user-vehicle-modal.css">
 </head>
 <body>
-<header-component></header-component>
+    <header-component></header-component>
 
-<div class="container">
-    user vehicles
-</div>
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">차량정보</h2>
+            <button id="addVehicleBtn" class="add-vehicle-btn">차량 추가</button>
+        </div>
+
+        <div class="vehicle-list" id="vehicleList"></div>
+    </div>
+
+    <vehicle-modal-component></vehicle-modal-component>
+
 <script type="module" src="/src/components/header-component.js"></script>
+<script type="module" src="/src/components/user-vehicle-modal-component.js"></script>
+<script type="module">
+    import { getVehicleList } from '/src/userApi.js';
+
+    function initPage() {
+        loadVehicles();
+
+        document.getElementById('addVehicleBtn').addEventListener('click', () => {
+            const vehicleModal = document.querySelector('vehicle-modal-component');
+            const backdrop = document.querySelector('.modal-backdrop');
+
+            vehicleModal.classList.add('active');
+            backdrop && backdrop.classList.add('active');
+
+            vehicleModal.open(() => {
+                loadVehicles();
+            });
+
+            // const modalComponent = document.querySelector('vehicle-modal-component');
+            // const backdrop = document.querySelector('.modal-backdrop');
+            //
+            // modalComponent.classList.add('active');
+            // backdrop && backdrop.classList.add('active');
+        });
+
+    }
+
+    async function loadVehicles() {
+        const res = await getVehicleList();
+        renderVehicleList(res)
+    }
+
+    function renderVehicleList(vehicles) {
+        const vehicleList = document.getElementById('vehicleList');
+        vehicleList.innerHTML = '';
+
+        vehicles.forEach(vehicle => {
+            const vehicleItem = document.createElement('div');
+            vehicleItem.className = 'vehicle-card';
+
+            vehicleItem.innerHTML = `
+                <div class="vehicle-info">
+                    <div class="vehicle-name">${vehicle.model.name}</div>
+                    <div class="vehicle-number">${vehicle.numberPlate}</div>
+                    <div class="vehicle-details">
+                        <div class="vehicle-detail-item">
+                            <span class="vehicle-detail-label">브랜드:</span> ${vehicle.brand.name}
+                        </div>
+                        <div class="vehicle-detail-item">
+                            <span class="vehicle-detail-label">모델:</span> ${vehicle.model.name}
+                        </div>
+                        <div class="vehicle-detail-item">
+                            <span class="vehicle-detail-label">트림:</span> [ ${vehicle.trim.drivetrain}/${vehicle.trim.fuelType}/${vehicle.trim.transmission} ]
+                        </div>
+                    </div>
+                    <div class="vehicle-mileage">${vehicle.kilometers}KM</div>
+                </div>
+            `;
+
+            vehicleList.appendChild(vehicleItem);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+</script>
 </body>
 </html>

@@ -44,7 +44,7 @@
 <parts-modal-component></parts-modal-component>
 
 <script type="module" src="/src/components/header-component.js"></script>
-<script type="module" src="/src/components/vehicle-modal-component.js"></script>
+<script type="module" src="/src/components/admin-vehicle-modal-component.js"></script>
 <script type="module" src="/src/components/parts-modal-component.js"></script>
 <script type="module">
     import { getSpecList, deleteSpecList } from '/src/adminApi.js'
@@ -97,7 +97,6 @@
 
         try {
             const trimIdxs = Array.from(checkedBoxes).map(checkbox => checkbox.value);
-            //todo:trimParts도 삭제해야함.
 
             const data = await deleteSpecList(trimIdxs);
             alert(data);

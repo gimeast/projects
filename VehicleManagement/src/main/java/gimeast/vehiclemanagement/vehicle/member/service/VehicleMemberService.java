@@ -4,13 +4,18 @@ import gimeast.vehiclemanagement.common.dto.PageRequestDTO;
 import gimeast.vehiclemanagement.common.dto.PageResponseDTO;
 import gimeast.vehiclemanagement.member.entity.MemberEntity;
 import gimeast.vehiclemanagement.member.repository.MemberRepository;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenancePartsDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
+import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleMaintenanceEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimPartsEntity;
+import gimeast.vehiclemanagement.vehicle.repository.VehicleBrandRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleMaintenanceRepository;
+import gimeast.vehiclemanagement.vehicle.repository.VehicleModelRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehiclePartsRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleTrimPartsRepository;
 import gimeast.vehiclemanagement.vehicle.repository.VehicleTrimRepository;
@@ -33,10 +38,12 @@ import java.util.Optional;
 public class VehicleMemberService {
     private final MemberRepository memberRepository;
     private final VehicleRepository vehicleRepository;
+    private final VehicleBrandRepository vehicleBrandRepository;
     private final VehicleTrimRepository vehicleTrimRepository;
     private final VehiclePartsRepository vehiclePartsRepository;
     private final VehicleTrimPartsRepository vehicleTrimPartsRepository;
     private final VehicleMaintenanceRepository vehicleMaintenanceRepository;
+    private final VehicleModelRepository vehicleModelRepository;
 
     public List<VehicleDTO> getMemberVehicleInfoList(String mid) {
         return vehicleRepository.findVehicleDTOListByMid(mid);
@@ -87,5 +94,17 @@ public class VehicleMemberService {
 
         Page<VehicleMaintenanceDTO> page = vehicleMaintenanceRepository.vehicleMaintenanceList(search, pageable, memberVehicleIdx);
         return PageResponseDTO.toPageResponse(page);
+    }
+
+    public List<VehicleBrandDTO> getBrandList() {
+        return vehicleBrandRepository.findAllDTO();
+    }
+
+    public List<VehicleModelDTO> getModelListByBrandIdx(Long brandIdx) {
+        return vehicleModelRepository.findAllDTOListByBrandIdx(brandIdx);
+    }
+
+    public List<VehicleTrimDTO> getTrimDTOList(Long modelIdx) {
+        return vehicleTrimRepository.findAllDTOListByModelIdx(modelIdx);
     }
 }
