@@ -111,8 +111,8 @@ public class VehicleAdminController {
         return new ResponseEntity<>("해당 트림의 부품 및 교환 주기를 저장하였습니다.", HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/trim/parts")
-    public ResponseEntity<String> deleteTrimParts(Long trimPartsIdx) {
+    @DeleteMapping(value = "/trim/parts/{trimPartsIdx}")
+    public ResponseEntity<String> deleteTrimParts(@PathVariable Long trimPartsIdx) {
         vehicleAdminService.deleteVehicleTrimParts(trimPartsIdx);
         return new ResponseEntity<>("해당 트림의 부품 및 교환 주기를 삭제하였습니다.", HttpStatus.CREATED);
     }

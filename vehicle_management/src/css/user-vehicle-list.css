@@ -132,3 +132,43 @@
         justify-content: center;
     }
 }
+
+.delete-vehicle-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    color: #ff6b6b;
+    border: 1px solid #eeeeee;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    opacity: 0.8;
+}
+
+.delete-vehicle-btn:hover {
+    background-color: #ff6b6b;
+    color: white;
+    border-color: #ff6b6b;
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.delete-vehicle-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(255, 107, 107, 0.2);
+}
+
+.delete-vehicle-btn svg {
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+}

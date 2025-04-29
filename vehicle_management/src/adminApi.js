@@ -68,7 +68,7 @@ export const saveTrimPartsList = async (dataList) => {
 
 
 export const deleteTrimParts = async (trimPartsIdx) => {
-    const path = `${ url }/admin/vehicles/trim/parts?trimPartsIdx=${ trimPartsIdx }`;
+    const path = `${ url }/admin/vehicles/trim/parts/${ trimPartsIdx }`;
 
     const res = await jwtAxios.delete(path);
     return res.data;

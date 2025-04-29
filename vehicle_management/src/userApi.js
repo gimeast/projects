@@ -39,3 +39,10 @@ export const saveVehicle = async (numberPlate, kilometers, trimIdx) => {
     const res = await jwtAxios.post(path, data);
     return res.data
 }
+
+export const deleteVehicle = async (memberVehicleIdx) => {
+    const path = `${ url }/vehicles/${ memberVehicleIdx }`;
+
+    const res = await jwtAxios.delete(path);
+    return res.data
+}

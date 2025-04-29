@@ -117,7 +117,7 @@ class PartsModal extends HTMLElement {
                                          value="${ replacementValue }" />
                                </td>
                                <td>
-                               ${ matchingTrimPart ? `<button className="delete-parts-btn"
+                               ${ matchingTrimPart ? `<button class="delete-parts-btn"
                                                              data-trim-parts-idx="${ matchingTrimPart?.idx }">삭제</button>` : '' }
                                </td>
                             </tr>`;

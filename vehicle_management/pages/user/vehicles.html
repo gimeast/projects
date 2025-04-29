@@ -24,7 +24,9 @@
 <script type="module" src="/src/components/header-component.js"></script>
 <script type="module" src="/src/components/user-vehicle-modal-component.js"></script>
 <script type="module">
-    import { getVehicleList } from '/src/userApi.js';
+    import { getVehicleList, deleteVehicle } from '/src/userApi.js';
+
+    let vehiclesData = [];
 
     function initPage() {
         loadVehicles();
@@ -39,18 +41,26 @@
             vehicleModal.open(() => {
                 loadVehicles();
             });
-
-            // const modalComponent = document.querySelector('vehicle-modal-component');
-            // const backdrop = document.querySelector('.modal-backdrop');
-            //
-            // modalComponent.classList.add('active');
-            // backdrop && backdrop.classList.add('active');
         });
 
+        document.getElementById('vehicleList').addEventListener('click', async (event) => {
+            const deleteBtn = event.target.closest('.delete-vehicle-btn');
+            if (deleteBtn) {
+                const vehicleCard = deleteBtn.closest('.vehicle-card');
+                if (vehicleCard) {
+                    const index = vehicleCard.dataset.index;
+                    const vehicle = vehiclesData[index];
+
+                    await deleteVehicle(vehicle.idx);
+                    await loadVehicles()
+                }
+            }
+        });
     }
 
     async function loadVehicles() {
         const res = await getVehicleList();
+        vehiclesData = res;
         renderVehicleList(res)
     }
 
@@ -58,13 +68,21 @@
         const vehicleList = document.getElementById('vehicleList');
         vehicleList.innerHTML = '';
 
-        vehicles.forEach(vehicle => {
+        vehicles.forEach((vehicle, index) => {
             const vehicleItem = document.createElement('div');
             vehicleItem.className = 'vehicle-card';
-
+            vehicleItem.dataset.index = index;
             vehicleItem.innerHTML = `
                 <div class="vehicle-info">
                     <div class="vehicle-name">${vehicle.model.name}</div>
+                    <div>
+                        <button class="delete-vehicle-btn">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                    </div>
                     <div class="vehicle-number">${vehicle.numberPlate}</div>
                     <div class="vehicle-details">
                         <div class="vehicle-detail-item">
