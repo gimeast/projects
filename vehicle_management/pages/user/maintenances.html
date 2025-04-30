@@ -4,13 +4,144 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/user-maintenance-list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 <header-component></header-component>
 
 <div class="container">
-    user maintenances
+    <div class="number-plate-list" id="numberPlateList"></div>
+    <div class="maintenance-list" id="maintenanceList"></div>
 </div>
 <script type="module" src="/src/components/header-component.js"></script>
+<script type="module">
+    import { getVehicleList, getMaintenanceList } from '/src/userApi.js';
+
+    let page = 1;
+    let search = '';
+
+    function initPage() {
+        loadVehicles();
+
+        document.getElementById('numberPlateList').addEventListener('change', (e) => {
+            if (e.target.type === 'radio' && e.target.name === 'numberPlate') {
+                const memberVehicleIdx = e.target.value;
+                loadMaintenance(memberVehicleIdx);
+            }
+        });
+    }
+
+    async function loadVehicles() {
+        const res = await getVehicleList();
+        await renderNumberPlateList(res)
+    }
+
+    async function renderNumberPlateList(list) {
+        const numberPlateList = document.getElementById('numberPlateList');
+        numberPlateList.innerHTML = '';
+
+        list.forEach((item, index) => {
+            const vehicleItem = document.createElement('div');
+            vehicleItem.className = 'number-plate';
+
+            const checkedAttribute = index === 0 ? 'checked' : '';
+
+            vehicleItem.innerHTML = `
+                <input type="radio" name="numberPlate" id="numberPlate-${item.idx}" value="${item.idx}" ${checkedAttribute}/>
+                <label for="numberPlate-${item.idx}">${item.numberPlate}</label>
+            `;
+
+            numberPlateList.appendChild(vehicleItem);
+        })
+
+        if (list.length > 0) {
+            const selectedRadio = document.querySelector('input[name="numberPlate"]:checked');
+            if (selectedRadio) {
+                const memberVehicleIdx = selectedRadio.value;
+                await loadMaintenance(memberVehicleIdx);
+            }
+        }
+    }
+
+    async function loadMaintenance(memberVehicleIdx) {
+        const result = await getMaintenanceList(memberVehicleIdx, search, page);
+        renderMaintenanceList(result?.content);
+    }
+
+    function renderMaintenanceList(list) {
+        const maintenanceList = document.getElementById('maintenanceList');
+        maintenanceList.innerHTML = '';
+
+        if (!list || list.length === 0) {
+            maintenanceList.innerHTML = '<div class="no-data">해당 차량의 유지보수 기록이 없습니다.</div>';
+            return;
+        }
+
+        list.forEach((item) => {
+            const vehicleItem = document.createElement('div');
+            vehicleItem.className = 'maintenance-item';
+            vehicleItem.dataset.idx = item.idx;
+
+            vehicleItem.innerHTML = `
+            <div class="maintenance-header">
+                    <div class="maintenance-part">
+                        <i class="fas fa-tools"></i>
+                        <span>${item.parts.partsDTO.name}</span>
+                    </div>
+                    <div class="maintenance-actions">
+                        <button class="maintenance-edit-btn" data-idx="${item.idx}">
+                            <i class="fas fa-edit"></i> 수정
+                        </button>
+                        <button class="maintenance-delete-btn" data-idx="${item.idx}">
+                            <i class="fas fa-trash-alt"></i> 삭제
+                        </button>
+                    </div>
+                </div>
+                <div class="maintenance-details">
+                    <div class="maintenance-kilometers">
+                        <div class="detail-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span class="detail-label">정비 키로수</span>
+                            <span class="detail-value">${item.kilometers ?? 0} KM</span>
+                        </div>
+                    </div>
+                    <div class="maintenance-memo">
+                        <div class="detail-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="detail-content">
+                            <span class="detail-label">정비 메모</span>
+                            <p class="detail-value">${item.memo || '메모 없음'}</p>
+                        </div>
+                    </div>
+                </div>
+
+            `;
+
+            maintenanceList.appendChild(vehicleItem);
+        });
+
+        document.querySelectorAll('.maintenance-edit-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const idx = this.getAttribute('data-idx');
+                console.log('수정 버튼이 클릭됨 - idx:', idx);
+                e.stopPropagation();
+            });
+        });
+
+        document.querySelectorAll('.maintenance-delete-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const idx = this.getAttribute('data-idx');
+                console.log('삭제 버튼이 클릭됨 - idx:', idx);
+                e.stopPropagation();
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+</script>
 </body>
 </html>

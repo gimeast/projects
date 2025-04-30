@@ -46,3 +46,9 @@ export const deleteVehicle = async (memberVehicleIdx) => {
     const res = await jwtAxios.delete(path);
     return res.data
 }
+
+export const getMaintenanceList = async (memberVehicleIdx, search, page) => {
+    const path = `${ url }/vehicles/maintenance?memberVehicleIdx=${ memberVehicleIdx }&search=${ search }&page=${ page }`;
+    const res = await jwtAxios.get(path);
+    return res.data
+}
