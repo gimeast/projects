@@ -68,15 +68,16 @@ class PartsModal extends HTMLElement {
                 this.deleteTrimPartsData(trimPartsIdx);
             }
         });
-
     }
 
-    open(trimIdx) {
+    async open(trimIdx) {
         this.trimIdx = trimIdx;
+
+        this.querySelector('#partsName').value = '';
         this.querySelector('#partsModal').style.display = 'block';
 
-        this.getParts();
-        this.getTrimParts();
+        await this.getParts();
+        await this.getTrimParts();
     }
 
     close() {
@@ -161,7 +162,8 @@ class PartsModal extends HTMLElement {
 
     async partsAdd() {
         try {
-            const partsName = this.querySelector('#partsName').value;
+            const partsNameInput = this.querySelector('#partsName');
+            const partsName = partsNameInput.value;
 
             if(!partsName) {
                 alert('부품명을 입력하세요');
@@ -170,6 +172,8 @@ class PartsModal extends HTMLElement {
 
             const data = await saveParts(partsName);
             alert(data);
+
+            partsNameInput.value = '';
 
             await this.getTrimParts();
         } catch(error) {

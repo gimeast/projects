@@ -84,6 +84,16 @@
             deleteVehicleInfo();
         });
 
+        const headerCheckbox = document.querySelector('.vehicle-list-header input[type="checkbox"]');
+        headerCheckbox.addEventListener('click', (e) => {
+            e.stopPropagation(); // 이벤트 버블링 방지
+            const isChecked = headerCheckbox.checked;
+            const allCheckboxes = document.querySelectorAll('#vehicleList input[type="checkbox"]');
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
         loadVehicles();
     }
 
@@ -109,6 +119,11 @@
 
     async function loadVehicles() {
         try {
+            const headerCheckbox = document.querySelector('.vehicle-list-header input[type="checkbox"]');
+            if (headerCheckbox) {
+                headerCheckbox.checked = false;
+            }
+
             const data = await getSpecList(search, page);
             renderVehicleList(data.content);
 
@@ -158,6 +173,11 @@
             vehicleItem.addEventListener('click', () => {
                 const checkbox = vehicleItem.querySelector('input[type="checkbox"]');
                 checkbox.checked = !checkbox.checked;
+            });
+
+            const checkbox = vehicleItem.querySelector('input[type="checkbox"]');
+            checkbox.addEventListener('click', (e) => {
+                e.stopPropagation();
             });
 
             const partsBtn = vehicleItem.querySelector('.parts-btn');
