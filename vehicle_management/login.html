@@ -4,30 +4,167 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="/src/css/style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 80px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .login-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #3498db;
+            border-radius: 3px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #e4e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus + i {
+            color: #3498db;
+        }
+
+        .login-btn {
+            margin-top: 10px;
+            padding: 14px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .login-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .signup-link {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .signup-link a {
+            color: #3498db;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 40px 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+
 </head>
 <body>
     <header-component></header-component>
 
     <div class="container">
-        <h1>Login</h1>
-        <div>
-            <label>
-                <label for="mid">사용자명:</label>
-                <input type="text" placeholder="아이디" id="mid" name="mid" />
-            </label>
-            <label>
-                <label for="mpw">비밀번호:</label>
-                <input type="password" placeholder="비밀번호" id="mpw" name="mpw" />
-            </label>
-            <button class="loginBtn">Login</button>
+        <div class="login-container">
+            <h1 class="login-title">로그인</h1>
+            <div class="login-form">
+                <div class="input-group">
+                    <label for="mid">아이디</label>
+                    <input type="text" placeholder="아이디를 입력하세요" id="mid" name="mid" />
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="input-group">
+                    <label for="mpw">비밀번호</label>
+                    <input type="password" placeholder="비밀번호를 입력하세요" id="mpw" name="mpw" />
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button class="login-btn">로그인</button>
+                <div class="signup-link">
+                    계정이 없으신가요? <a href="/">회원가입</a>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <script type="module" src="/src/components/header-component.js"></script>
     <script type="module">
         import { makeToken, saveToken } from '/src/jwtApi.js'
 
-        document.querySelector(".loginBtn").addEventListener("click", () => {
+        document.querySelector(".login-btn").addEventListener("click", () => {
             const mid = document.querySelector("input[name='mid']").value
             const mpw = document.querySelector("input[name='mpw']").value
 

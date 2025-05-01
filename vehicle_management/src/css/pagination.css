@@ -19,9 +19,9 @@
 }
 
 .pagination button.active {
-    background-color: #4a6bdf;
+    background-color: #3498db;
     color: white;
-    border-color: #4a6bdf;
+    border-color: #3498db;
 }
 
 .no-data, .error-message {

@@ -104,14 +104,14 @@
 }
 
 .parts-modal-body > div:first-child input:focus {
-    border-color: #4a6bdf;
+    border-color: #3498db;
     outline: none;
     box-shadow: 0 0 0 2px rgba(74, 107, 223, 0.2);
 }
 
 #partsAddBtn {
     padding: 8px 16px;
-    background-color: #4a6bdf;
+    background-color: #3498db;
     color: white;
     border: none;
     border-radius: 4px;
@@ -122,7 +122,7 @@
 }
 
 #partsAddBtn:hover {
-    background-color: #3a59c7;
+    background-color: #2980b9;
 }
 
 /* 부품 테이블 */
@@ -173,7 +173,7 @@
 }
 
 .parts-interval-input:focus {
-    border-color: #4a6bdf;
+    border-color: #3498db;
     outline: none;
     box-shadow: 0 0 0 2px rgba(74, 107, 223, 0.2);
 }
@@ -191,7 +191,7 @@
 /* 저장 버튼 */
 #trimPartsBtn {
     padding: 8px 16px;
-    background-color: #4a6bdf;
+    background-color: #3498db;
     color: white;
     border: none;
     border-radius: 4px;
@@ -201,7 +201,7 @@
 }
 
 #trimPartsBtn:hover {
-    background-color: #3a59c7;
+    background-color: #2980b9;
 }
 
 /* 닫기 버튼 */
