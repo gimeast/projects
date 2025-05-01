@@ -12,24 +12,124 @@
 
 <div class="container">
     <div class="number-plate-list" id="numberPlateList"></div>
+
+    <div class="maintenance-add-form">
+        <div class="form-title">
+            <i class="fas fa-plus-circle"></i>
+            <span>새 정비 이력 추가</span>
+        </div>
+        <div class="form-group">
+            <label for="parts-select">부품 선택</label>
+            <select id="parts-select" class="parts-select"></select>
+        </div>
+        <div class="form-group">
+            <label for="kilometers-input">정비 키로수 (KM)</label>
+            <input type="number" id="kilometers-input" class="form-control" placeholder="0">
+        </div>
+        <div class="form-group">
+            <label for="memo-input">정비 메모</label>
+            <textarea id="memo-input" class="form-control" placeholder="정비 관련 메모를 입력하세요"></textarea>
+        </div>
+        <div class="btn-group">
+            <button id="add-maintenance-btn" class="btn btn-primary">추가하기</button>
+            <button id="reset-form-btn" class="btn btn-secondary">초기화</button>
+        </div>
+    </div>
+
     <div class="maintenance-list" id="maintenanceList"></div>
 </div>
 <script type="module" src="/src/components/header-component.js"></script>
 <script type="module">
-    import { getVehicleList, getMaintenanceList } from '/src/userApi.js';
+    import { getVehicleList, getMaintenanceList, editMaintenance, deleteMaintenance, getPartsList } from '/src/userApi.js';
+    import { saveMaintenance } from "../../src/userApi.js";
 
     let page = 1;
     let search = '';
 
-    function initPage() {
-        loadVehicles();
+    async function initPage() {
+        await loadVehicles();
 
-        document.getElementById('numberPlateList').addEventListener('change', (e) => {
+        document.getElementById('numberPlateList').addEventListener('change', async (e) => {
             if (e.target.type === 'radio' && e.target.name === 'numberPlate') {
                 const memberVehicleIdx = e.target.value;
-                loadMaintenance(memberVehicleIdx);
+                await loadMaintenance(memberVehicleIdx);
             }
         });
+
+        document.getElementById('add-maintenance-btn').addEventListener('click', async () => {
+            const trimPartsIdx = document.getElementById('parts-select').value;
+            const kilometers = document.getElementById('kilometers-input').value;
+            const memo = document.getElementById('memo-input').value;
+
+            if(!trimPartsIdx) {
+                alert('교환하신 부품을 선택하세요')
+                return;
+            }
+
+            const selectedVehicle = document.querySelector('input[name="numberPlate"]:checked');
+
+            if (selectedVehicle) {
+                const memberVehicleIdx = selectedVehicle.value;
+
+                const updatedData = {
+                    memberVehicleIdx,
+                    trimPartsIdx,
+                    kilometers,
+                    memo
+                };
+
+                try {
+                    const result = await saveMaintenance(updatedData);
+                    alert(result || '저장되었습니다.');
+                    await loadVehicles();
+                } catch (error) {
+                    alert('저장 중 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            }
+        })
+
+        document.getElementById('reset-form-btn').addEventListener('click', () => {
+            document.getElementById('parts-select').value = '';
+            document.getElementById('kilometers-input').value = '';
+            document.getElementById('memo-input').value = '';
+        })
+    }
+
+    async function loadPartsList(memberVehicleIdx) {
+        const res = await getPartsList(memberVehicleIdx)
+        renderPartsList(res);
+    }
+
+    function renderPartsList(partsList) {
+        const partsSelect = document.getElementById('parts-select');
+
+        partsSelect.innerHTML = '';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '부품을 선택하세요';
+        partsSelect.appendChild(defaultOption);
+
+        if (partsList && partsList.length > 0) {
+            partsList.forEach(part => {
+                const option = document.createElement('option');
+                option.value = part.trimPartsIdx;
+
+                if (part) {
+                    option.textContent = part.name;
+                }
+
+                partsSelect.appendChild(option);
+            });
+        } else {
+            const noPartsOption = document.createElement('option');
+            noPartsOption.value = '';
+            noPartsOption.textContent = '사용 가능한 부품이 없습니다';
+            noPartsOption.disabled = true;
+            partsSelect.appendChild(noPartsOption);
+        }
+
     }
 
     async function loadVehicles() {
@@ -60,6 +160,7 @@
             if (selectedRadio) {
                 const memberVehicleIdx = selectedRadio.value;
                 await loadMaintenance(memberVehicleIdx);
+                await loadPartsList(memberVehicleIdx);
             }
         }
     }
@@ -105,7 +206,7 @@
                         </div>
                         <div class="detail-content">
                             <span class="detail-label">정비 키로수</span>
-                            <span class="detail-value">${item.kilometers ?? 0} KM</span>
+                            <input type="number" class="detail-value kilometers-input" value="${item.kilometers ?? 0}" disabled /> KM
                         </div>
                     </div>
                     <div class="maintenance-memo">
@@ -114,28 +215,111 @@
                         </div>
                         <div class="detail-content">
                             <span class="detail-label">정비 메모</span>
-                            <p class="detail-value">${item.memo || '메모 없음'}</p>
+                            <textarea class="detail-value memo-input" disabled>${item.memo || '메모 없음'}</textarea>
                         </div>
                     </div>
                 </div>
-
+                <div class="edit-buttons" style="display: none; margin-top: 10px; text-align: right;">
+                    <button class="save-btn" data-idx="${item.idx}">저장</button>
+                    <button class="cancel-btn" data-idx="${item.idx}">취소</button>
+                </div>
             `;
 
             maintenanceList.appendChild(vehicleItem);
         });
 
         document.querySelectorAll('.maintenance-edit-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', async function (e) {
                 const idx = this.getAttribute('data-idx');
-                console.log('수정 버튼이 클릭됨 - idx:', idx);
+                const maintenanceItem = document.querySelector(`.maintenance-item[data-idx="${idx}"]`);
+
+                const kilometersInput = maintenanceItem.querySelector('.kilometers-input');
+                const memoInput = maintenanceItem.querySelector('.memo-input');
+                const editButtons = maintenanceItem.querySelector('.edit-buttons');
+
+                kilometersInput.disabled = false;
+                memoInput.disabled = false;
+
+                this.style.display = 'none';
+                maintenanceItem.querySelector('.maintenance-delete-btn').style.display = 'none';
+                editButtons.style.display = 'block';
+
                 e.stopPropagation();
             });
         });
 
-        document.querySelectorAll('.maintenance-delete-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
+        // 저장 버튼 클릭 이벤트
+        document.querySelectorAll('.save-btn').forEach(button => {
+            button.addEventListener('click', async function (e) {
                 const idx = this.getAttribute('data-idx');
-                console.log('삭제 버튼이 클릭됨 - idx:', idx);
+                const maintenanceItem = document.querySelector(`.maintenance-item[data-idx="${idx}"]`);
+
+                const kilometersInput = maintenanceItem.querySelector('.kilometers-input');
+                const memoInput = maintenanceItem.querySelector('.memo-input');
+
+                const updatedData = {
+                    idx: idx,
+                    kilometers: kilometersInput.value,
+                    memo: memoInput.value
+                };
+
+                try {
+                    const result = await editMaintenance(updatedData);
+                    alert(result || '저장되었습니다.');
+
+                    toggleEditMode(maintenanceItem, false);
+                } catch (error) {
+                    alert('저장 중 오류가 발생했습니다.');
+                    console.error(error);
+                }
+
+                e.stopPropagation();
+            });
+        });
+
+        document.querySelectorAll('.cancel-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const idx = this.getAttribute('data-idx');
+                const maintenanceItem = document.querySelector(`.maintenance-item[data-idx="${idx}"]`);
+
+                toggleEditMode(maintenanceItem, false);
+
+                e.stopPropagation();
+            });
+        });
+
+        function toggleEditMode(item, isEdit) {
+            const kilometersInput = item.querySelector('.kilometers-input');
+            const memoInput = item.querySelector('.memo-input');
+            const editButtons = item.querySelector('.edit-buttons');
+            const editBtn = item.querySelector('.maintenance-edit-btn');
+            const deleteBtn = item.querySelector('.maintenance-delete-btn');
+
+            kilometersInput.disabled = !isEdit;
+            memoInput.disabled = !isEdit;
+
+            editButtons.style.display = isEdit ? 'block' : 'none';
+            editBtn.style.display = isEdit ? 'none' : 'inline-block';
+            deleteBtn.style.display = isEdit ? 'none' : 'inline-block';
+
+            if (!isEdit) {
+                const memberVehicleIdx = document.querySelector('input[name="numberPlate"]:checked').value;
+                loadMaintenance(memberVehicleIdx);
+            }
+        }
+
+        document.querySelectorAll('.maintenance-delete-btn').forEach(button => {
+            button.addEventListener('click', async function (e) {
+                const idx = this.getAttribute('data-idx');
+                const result = await deleteMaintenance(idx);
+                alert(result);
+
+                const selectedVehicle = document.querySelector('input[name="numberPlate"]:checked');
+                if (selectedVehicle) {
+                    const memberVehicleIdx = selectedVehicle.value;
+                    await loadMaintenance(memberVehicleIdx);
+                }
+
                 e.stopPropagation();
             });
         });

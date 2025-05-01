@@ -9,19 +9,20 @@ import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenancePartsDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceRequestDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
-import gimeast.vehiclemanagement.vehicle.dto.VehiclePartsDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.member.service.VehicleMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/vehicles")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/vehicles")
 @Log4j2
 public class VehicleMemberController {
     private final VehicleMemberService vehicleMemberService;
@@ -69,6 +70,18 @@ public class VehicleMemberController {
     public ResponseEntity<String> saveVehicleMaintenance(@RequestBody VehicleMaintenanceRequestDTO dto) {
         vehicleMemberService.saveVehicleMaintenance(dto.getMemberVehicleIdx(), dto.getTrimPartsIdx(), dto.getKilometers(), dto.getMemo());
         return new ResponseEntity<>("정보가 성공적으로 등록되었습니다.", HttpStatus.CREATED);
+    }
+
+    @PutMapping("/maintenance")
+    public ResponseEntity<String> editVehicleMaintenance(@RequestBody VehicleMaintenanceRequestDTO dto) {
+        vehicleMemberService.editVehicleMaintenance(dto.getIdx(), dto.getKilometers(), dto.getMemo());
+        return ResponseEntity.ok("정보가 성공적으로 수정되었습니다.");
+    }
+
+    @DeleteMapping("/maintenance/{idx}")
+    public ResponseEntity<String> deleteVehicleMaintenance(@PathVariable Long idx) {
+        vehicleMemberService.deleteVehicleMaintenance(idx);
+        return ResponseEntity.ok("삭제를 완료하였습니다.");
     }
 
     @GetMapping("/maintenance")

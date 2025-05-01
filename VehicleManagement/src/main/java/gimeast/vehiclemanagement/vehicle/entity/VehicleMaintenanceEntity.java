@@ -38,4 +38,9 @@ public class VehicleMaintenanceEntity extends BaseEntity {
 
     private int kilometers;
     private String memo;
+
+    public void changeMaintenance(int kilometers, String memo) {
+        this.kilometers = kilometers;
+        this.memo = memo;
+    }
 }

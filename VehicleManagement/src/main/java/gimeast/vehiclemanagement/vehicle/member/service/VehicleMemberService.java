@@ -107,4 +107,14 @@ public class VehicleMemberService {
     public List<VehicleTrimDTO> getTrimDTOList(Long modelIdx) {
         return vehicleTrimRepository.findAllDTOListByModelIdx(modelIdx);
     }
+
+    @Transactional
+    public void editVehicleMaintenance(Long idx, int kilometers, String memo) {
+        Optional<VehicleMaintenanceEntity> maintenanceOptional = vehicleMaintenanceRepository.findById(idx);
+        maintenanceOptional.ifPresent(vehicleMaintenanceEntity -> vehicleMaintenanceEntity.changeMaintenance(kilometers, memo));
+    }
+
+    public void deleteVehicleMaintenance(Long idx) {
+        vehicleMaintenanceRepository.deleteById(idx);
+    }
 }

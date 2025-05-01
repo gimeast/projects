@@ -52,3 +52,27 @@ export const getMaintenanceList = async (memberVehicleIdx, search, page) => {
     const res = await jwtAxios.get(path);
     return res.data
 }
+
+export const saveMaintenance = async (data) => {
+    const path = `${ url }/vehicles/maintenance`;
+    const res = await jwtAxios.post(path, data);
+    return res.data
+}
+
+export const editMaintenance = async (data) => {
+    const path = `${ url }/vehicles/maintenance`;
+    const res = await jwtAxios.put(path, data);
+    return res.data
+}
+
+export const deleteMaintenance = async (idx) => {
+    const path = `${ url }/vehicles/maintenance/${ idx }`;
+    const res = await jwtAxios.delete(path);
+    return res.data
+}
+
+export const getPartsList = async (memberVehicleIdx) => {
+    const path = `${ url }/vehicles/parts?memberVehicleIdx=${ memberVehicleIdx }`;
+    const res = await jwtAxios.get(path);
+    return res.data
+}
