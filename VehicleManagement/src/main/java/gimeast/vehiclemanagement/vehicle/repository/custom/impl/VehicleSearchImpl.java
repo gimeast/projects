@@ -59,7 +59,7 @@ public class VehicleSearchImpl implements VehicleSearch {
             .where(searchCriteria)
             .limit(pageable.getPageSize())
             .offset(pageable.getOffset())
-            .orderBy(trim.idx.desc())
+            .orderBy(brand.idx.asc(), trim.idx.desc())
             .fetch();
 
         Optional<Long> count = Optional.ofNullable(queryFactory.select(trim.count())
@@ -122,7 +122,7 @@ public class VehicleSearchImpl implements VehicleSearch {
                 .where(searchCriteria)
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(trim.idx.desc())
+                .orderBy(maintenance.idx.desc())
                 .fetch();
 
         Optional<Long> count = Optional.ofNullable(queryFactory

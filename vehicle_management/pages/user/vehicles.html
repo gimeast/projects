@@ -12,7 +12,7 @@
 
     <div class="container">
         <div class="page-header">
-            <h2 class="page-title">차량정보</h2>
+            <h2 class="page-title">소유차량</h2>
             <button id="addVehicleBtn" class="add-vehicle-btn">차량 추가</button>
         </div>
 
@@ -45,15 +45,19 @@
 
         document.getElementById('vehicleList').addEventListener('click', async (event) => {
             const deleteBtn = event.target.closest('.delete-vehicle-btn');
-            if (deleteBtn) {
-                const vehicleCard = deleteBtn.closest('.vehicle-card');
-                if (vehicleCard) {
-                    const index = vehicleCard.dataset.index;
-                    const vehicle = vehiclesData[index];
+            try {
+                if (deleteBtn) {
+                    const vehicleCard = deleteBtn.closest('.vehicle-card');
+                    if (vehicleCard) {
+                        const index = vehicleCard.dataset.index;
+                        const vehicle = vehiclesData[index];
 
-                    await deleteVehicle(vehicle.idx);
-                    await loadVehicles()
+                        await deleteVehicle(vehicle.idx);
+                        await loadVehicles()
+                    }
                 }
+            } catch(error) {
+                alert(error);
             }
         });
     }
