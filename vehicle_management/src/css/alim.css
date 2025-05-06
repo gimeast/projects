@@ -1,0 +1,105 @@
+:host {
+    display: block;
+    position: relative;
+}
+
+.alim-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.alim-modal {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 320px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+    display: none;
+}
+
+.alim-modal.show {
+    display: block;
+}
+
+.alim-header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alim-close {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+}
+
+.alim-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.alim-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.alim-item:hover {
+    background-color: #f5f6f8;
+}
+
+.alim-message {
+    white-space: pre-line;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.alim-date {
+    font-size: 0.75rem;
+    color: #777;
+}
+
+.alim-empty {
+    padding: 20px;
+    text-align: center;
+    color: #777;
+}
+
+@media (max-width: 768px) {
+    .alim-modal {
+        width: 280px;
+        right: -10px;
+    }
+}

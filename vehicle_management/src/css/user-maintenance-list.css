@@ -604,4 +604,59 @@ textarea.form-control {
     .search-btn {
         width: 100%;
     }
+
+    .edit-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .save-btn,
+    .cancel-btn {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 10px;
+    border: none;
+}
+
+.save-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+.cancel-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+.cancel-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
 }

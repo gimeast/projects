@@ -76,3 +76,9 @@ export const getPartsList = async (memberVehicleIdx) => {
     const res = await jwtAxios.get(path);
     return res.data
 }
+
+export const getAlimList = async (memberIdx) => {
+    const path = `${ url }/vehicles/alim?memberIdx=${ memberIdx }`;
+    const res = await jwtAxios.get(path);
+    return res.data
+}

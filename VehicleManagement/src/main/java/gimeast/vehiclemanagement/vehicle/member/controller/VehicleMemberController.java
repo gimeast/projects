@@ -107,4 +107,10 @@ public class VehicleMemberController {
         List<VehicleTrimDTO> trimList = vehicleMemberService.getTrimDTOList(modelIdx);
         return ResponseEntity.ok(trimList);
     }
+
+    @GetMapping(value = "/alim")
+    public ResponseEntity<List<String>> getAlimList(@AuthenticationPrincipal CustomUserPrincipal user) {
+        List<String> alimList = vehicleMemberService.intervalCalc(user.getIdx());
+        return ResponseEntity.ok(alimList);
+    }
 }

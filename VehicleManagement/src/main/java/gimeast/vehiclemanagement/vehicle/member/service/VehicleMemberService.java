@@ -8,7 +8,6 @@ import gimeast.vehiclemanagement.vehicle.dto.VehicleBrandDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenanceDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleMaintenancePartsDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleModelDTO;
-import gimeast.vehiclemanagement.vehicle.dto.VehicleSpecDTO;
 import gimeast.vehiclemanagement.vehicle.dto.VehicleTrimDTO;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleMaintenanceEntity;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleTrimEntity;
@@ -29,6 +28,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,5 +117,40 @@ public class VehicleMemberService {
 
     public void deleteVehicleMaintenance(Long idx) {
         vehicleMaintenanceRepository.deleteById(idx);
+    }
+
+    @Transactional
+    public List<String> intervalCalc(Long memberIdx) {
+        List<String> alimList = new ArrayList<>();
+
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
+        LocalDateTime now = LocalDateTime.now();
+
+        vehicleRepository.findByMemberIdx(memberIdx).forEach(vehicle -> {
+
+            List<VehicleMaintenanceEntity> maintenanceEntityList = vehicleMaintenanceRepository.findLatestMaintenance(vehicle.getIdx(), oneYearAgo, now);
+
+            for (VehicleMaintenanceEntity maintenanceEntity : maintenanceEntityList) {
+                vehicleTrimPartsRepository.findById(maintenanceEntity.getTrimParts().getIdx()).ifPresent(trimParts -> {
+                    int replacementInterval = trimParts.getReplacementInterval();
+                    int beforeKilometers = maintenanceEntity.getKilometers();
+
+                    List<VehicleEntity> vehicleEntityList = vehicleRepository.findByMemberIdx(memberIdx);
+                    for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                        int currentKilometers = vehicleEntity.getKilometers();
+
+                        if((beforeKilometers + replacementInterval) - 1500 <=  currentKilometers) {
+                            vehiclePartsRepository.findById(trimParts.getParts().getIdx()).ifPresent(parts -> {
+                                alimList.add("<span style='color: red;'>※" + parts.getName() + "은/는 교환 예정 키로수까지 교환이 완료되어야 합니다.</span>\n" +
+                                        "<span style='font-weight: bold;'>교환 예정 키로수: " + (beforeKilometers + replacementInterval) + "</span>\n" +
+                                        "현재 키로수: " + currentKilometers);
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        return alimList;
     }
 }

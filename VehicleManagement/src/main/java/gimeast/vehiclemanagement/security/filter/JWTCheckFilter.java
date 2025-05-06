@@ -76,6 +76,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             //토큰 검증 결과에 문제가 없다면
             log.info("tokenMap: {}", tokenMap);
 
+            Long idx = Long.parseLong(tokenMap.get("idx").toString());
             String mid = tokenMap.get("mid").toString();
             Optional<MemberEntity> byMid = memberRepository.findByMidWithRoles(mid);
 
@@ -91,7 +92,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             //토큰 검증 결과를 이용해서 Authentication 객체를 생성
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(
-                            new CustomUserPrincipal(mid),
+                            new CustomUserPrincipal(idx, mid),
                             null,
                             Arrays.stream(roles)
                                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role))

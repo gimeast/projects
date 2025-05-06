@@ -21,4 +21,5 @@ public interface VehicleRepository extends JpaRepository<VehicleEntity, Long> {
             "WHERE v.member.mid = :mid")
     List<VehicleDTO> findVehicleDTOListByMid(@Param("mid") String mid);
 
+    List<VehicleEntity> findByMemberIdx(Long memberIdx);
 }

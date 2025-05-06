@@ -1,4 +1,5 @@
 import Cookies from "universal-cookie";
+import "./alim-component.js";
 
 class HeaderComponent extends HTMLElement {
     constructor() {
@@ -76,6 +77,8 @@ class HeaderComponent extends HTMLElement {
               `
             : "";
 
+        const alimComponent = isLoggedIn ? `<li class="alim-li"><alim-component></alim-component></li>` : '';
+
         this.innerHTML = `
           <header>
             <h1><a href="/">차량 관리 시스템</a></h1>
@@ -85,6 +88,7 @@ class HeaderComponent extends HTMLElement {
                 ${ userMenu }
                 ${ adminMenu }
                 ${ loginLogoutLink }
+                ${ alimComponent }
               </ul>
             </nav>
           </header>
