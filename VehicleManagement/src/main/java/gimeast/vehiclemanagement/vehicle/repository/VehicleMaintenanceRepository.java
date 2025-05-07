@@ -3,6 +3,7 @@ package gimeast.vehiclemanagement.vehicle.repository;
 import gimeast.vehiclemanagement.vehicle.entity.VehicleMaintenanceEntity;
 import gimeast.vehiclemanagement.vehicle.repository.custom.VehicleSearch;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,4 +25,8 @@ public interface VehicleMaintenanceRepository extends JpaRepository<VehicleMaint
             @Param("vehicleIdx") Long vehicleIdx,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
+
+    @Modifying
+    @Query("DELETE FROM VehicleMaintenanceEntity vm WHERE vm.vehicle.idx = :vehicleIdx")
+    void deleteByMemberVehicleIdx(Long vehicleIdx);
 }

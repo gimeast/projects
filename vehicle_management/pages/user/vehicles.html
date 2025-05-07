@@ -24,7 +24,7 @@
 <script type="module" src="/src/components/header-component.js"></script>
 <script type="module" src="/src/components/user-vehicle-modal-component.js"></script>
 <script type="module">
-    import { getVehicleList, deleteVehicle } from '/src/userApi.js';
+    import { getVehicleList, deleteVehicle, editVehicle } from '/src/userApi.js';
 
     let vehiclesData = [];
 
@@ -45,6 +45,8 @@
 
         document.getElementById('vehicleList').addEventListener('click', async (event) => {
             const deleteBtn = event.target.closest('.delete-vehicle-btn');
+            const editKmBtn = event.target.closest('.edit-km-btn');
+
             try {
                 if (deleteBtn) {
                     const vehicleCard = deleteBtn.closest('.vehicle-card');
@@ -55,11 +57,91 @@
                         await deleteVehicle(vehicle.idx);
                         await loadVehicles()
                     }
+                } else if (editKmBtn) {
+                    editKmBtn.style.display = 'none';
+
+                    const vehicleCard = editKmBtn.closest('.vehicle-card');
+                    if (vehicleCard) {
+                        const kmDisplay = vehicleCard.querySelector('.vehicle-km-value');
+                        const kmValue = kmDisplay.textContent;
+                        const kmInput = document.createElement('input');
+
+                        kmInput.type = 'number';
+                        kmInput.className = 'km-edit-input';
+                        kmInput.value = kmValue;
+                        kmInput.min = 0;
+
+                        kmInput.dataset.originalValue = kmValue;
+                        kmDisplay.parentNode.replaceChild(kmInput, kmDisplay);
+                        kmInput.focus();
+
+                        const buttonGroup = document.createElement('div');
+                        buttonGroup.className = 'km-edit-buttons';
+                        buttonGroup.innerHTML = `
+                            <button class="km-save-btn">저장</button>
+                            <button class="km-cancel-btn">취소</button>
+                        `;
+
+                        kmInput.parentNode.appendChild(buttonGroup);
+                    }
                 }
+
             } catch(error) {
                 alert(error);
             }
         });
+
+        document.getElementById('vehicleList').addEventListener('click', async (event) => {
+            if (event.target.classList.contains('km-save-btn')) {
+                const vehicleCard = event.target.closest('.vehicle-card');
+                const kmInput = vehicleCard.querySelector('.km-edit-input');
+                const index = vehicleCard.dataset.index;
+                const vehicle = vehiclesData[index];
+
+                try {
+                    const newKilometers = parseInt(kmInput.value);
+                    if (isNaN(newKilometers) || newKilometers < 0) {
+                        alert('유효한 주행거리를 입력해주세요.');
+                        return;
+                    }
+
+                    const updatedData = {
+                        idx: vehicle.idx,
+                        kilometers: newKilometers
+                    }
+                    await editVehicle(updatedData);
+
+                    await loadVehicles();
+                } catch (error) {
+                    alert('주행거리 업데이트 중 오류가 발생했습니다: ' + error.message);
+                    cancelKmEdit(vehicleCard);
+                }
+            } else if (event.target.classList.contains('km-cancel-btn')) {
+                const vehicleCard = event.target.closest('.vehicle-card');
+                cancelKmEdit(vehicleCard);
+            }
+        });
+
+    }
+
+    function cancelKmEdit(vehicleCard) {
+        const kmInput = vehicleCard.querySelector('.km-edit-input');
+        const buttonGroup = vehicleCard.querySelector('.km-edit-buttons');
+        const editKmBtn = vehicleCard.querySelector('.edit-km-btn');
+
+        if (kmInput && buttonGroup) {
+            const kmDisplay = document.createElement('span');
+            kmDisplay.className = 'vehicle-km-value';
+            kmDisplay.textContent = kmInput.dataset.originalValue;
+
+            kmInput.parentNode.replaceChild(kmDisplay, kmInput);
+            buttonGroup.remove();
+
+            if (editKmBtn) {
+                editKmBtn.style.display = '';
+            }
+
+        }
     }
 
     async function loadVehicles() {
@@ -99,7 +181,16 @@
                             <span class="vehicle-detail-label">트림:</span> [ ${vehicle.trim.drivetrain}/${vehicle.trim.fuelType}/${vehicle.trim.transmission} ]
                         </div>
                     </div>
-                    <div class="vehicle-mileage">${vehicle.kilometers}KM</div>
+                    <div class="vehicle-mileage">
+                        <span class="vehicle-km-value">${vehicle.kilometers}</span>KM
+                        <button class="edit-km-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
                 </div>
             `;
 

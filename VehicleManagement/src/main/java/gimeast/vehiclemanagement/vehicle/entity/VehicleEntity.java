@@ -46,4 +46,8 @@ public class VehicleEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_trim_idx")
     private VehicleTrimEntity trim;
+
+    public void editKilomemters(int kilometers) {
+        this.kilometers = kilometers;
+    }
 }

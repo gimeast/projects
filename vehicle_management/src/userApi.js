@@ -40,6 +40,12 @@ export const saveVehicle = async (numberPlate, kilometers, trimIdx) => {
     return res.data
 }
 
+export const editVehicle = async (data) => {
+    const path = `${ url }/vehicles`;
+    const res = await jwtAxios.put(path, data);
+    return res.data
+}
+
 export const deleteVehicle = async (memberVehicleIdx) => {
     const path = `${ url }/vehicles/${ memberVehicleIdx }`;
 
@@ -77,8 +83,8 @@ export const getPartsList = async (memberVehicleIdx) => {
     return res.data
 }
 
-export const getAlimList = async (memberIdx) => {
-    const path = `${ url }/vehicles/alim?memberIdx=${ memberIdx }`;
+export const getAlimList = async () => {
+    const path = `${ url }/vehicles/alim`;
     const res = await jwtAxios.get(path);
     return res.data
 }

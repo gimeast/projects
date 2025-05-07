@@ -103,6 +103,7 @@
                 try {
                     const result = await saveMaintenance(updatedData);
                     alert(result || '저장되었습니다.');
+                    resetFrom();
                     await loadVehicles();
                 } catch (error) {
                     alert('저장 중 오류가 발생했습니다.');
@@ -112,9 +113,7 @@
         })
 
         document.getElementById('reset-form-btn').addEventListener('click', () => {
-            document.getElementById('parts-select').value = '';
-            document.getElementById('kilometers-input').value = '';
-            document.getElementById('memo-input').value = '';
+            resetFrom();
         })
 
         document.getElementById('search-input').addEventListener('keypress', async (e) => {
@@ -167,6 +166,12 @@
                 toggleBtn.classList.remove('active');
             }
         });
+    }
+
+    function resetFrom() {
+        document.getElementById('parts-select').value = '';
+        document.getElementById('kilometers-input').value = '';
+        document.getElementById('memo-input').value = '';
     }
 
     async function loadPartsList(memberVehicleIdx) {

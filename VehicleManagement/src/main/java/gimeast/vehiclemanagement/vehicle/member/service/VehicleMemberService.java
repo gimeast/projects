@@ -67,7 +67,9 @@ public class VehicleMemberService {
         vehicleRepository.save(vehicleEntity);
     }
 
+    @Transactional
     public void deleteVehicle(Long memberVehicleIdx) {
+        deleteVehicleMaintenanceByVehicleIdx(memberVehicleIdx);
         vehicleRepository.deleteById(memberVehicleIdx);
     }
 
@@ -119,6 +121,10 @@ public class VehicleMemberService {
         vehicleMaintenanceRepository.deleteById(idx);
     }
 
+    public void deleteVehicleMaintenanceByVehicleIdx(Long memberVehicleIdx) {
+        vehicleMaintenanceRepository.deleteByMemberVehicleIdx(memberVehicleIdx);
+    }
+
     @Transactional
     public List<String> intervalCalc(Long memberIdx) {
         List<String> alimList = new ArrayList<>();
@@ -141,9 +147,9 @@ public class VehicleMemberService {
 
                         if((beforeKilometers + replacementInterval) - 1500 <=  currentKilometers) {
                             vehiclePartsRepository.findById(trimParts.getParts().getIdx()).ifPresent(parts -> {
-                                alimList.add("<span style='color: red;'>※" + parts.getName() + "은/는 교환 예정 키로수까지 교환이 완료되어야 합니다.</span>\n" +
-                                        "<span style='font-weight: bold;'>교환 예정 키로수: " + (beforeKilometers + replacementInterval) + "</span>\n" +
-                                        "현재 키로수: " + currentKilometers);
+                                alimList.add("<span style='color: red;'>※" + vehicleEntity.getNumberPlate() + " 차량의 " + parts.getName() + " 교환 시기가 다가왔습니다.</span>\n" +
+                                        "<span style='font-weight: bold;'>교체 권장 주행거리: " + (beforeKilometers + replacementInterval) + "</span>\n" +
+                                        "현재 주행거리: " + currentKilometers);
                             });
                         }
                     }
@@ -152,5 +158,12 @@ public class VehicleMemberService {
         });
 
         return alimList;
+    }
+
+    @Transactional
+    public void modifyVehicle(Long idx, int kilometers) {
+        vehicleRepository.findById(idx).ifPresent(vehicle -> {
+            vehicle.editKilomemters(kilometers);
+        });
     }
 }

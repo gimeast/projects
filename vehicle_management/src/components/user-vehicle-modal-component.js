@@ -14,7 +14,6 @@ class VehicleModal extends HTMLElement {
 
     async connectedCallback() {
         this.renderInitialStructure();
-        await this.loadBrands();
         await this.setupEventListeners();
     }
 
@@ -110,6 +109,7 @@ class VehicleModal extends HTMLElement {
     }
 
     renderModels() {
+
         const modelListContainer = this.querySelector('#modelList');
         modelListContainer.innerHTML = '';
 
@@ -143,8 +143,9 @@ class VehicleModal extends HTMLElement {
         });
     }
 
-    open(onSave) {
+    async open(onSave) {
         this.onSaveCallback = onSave;
+        await this.loadBrands();
         this.querySelector('#vehicleModal').style.display = 'block';
     }
 

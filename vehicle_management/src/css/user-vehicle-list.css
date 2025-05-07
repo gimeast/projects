@@ -172,3 +172,56 @@
     height: 16px;
     pointer-events: none;
 }
+
+/* user-vehicle-list.css에 추가 */
+.vehicle-mileage {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.edit-km-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.edit-km-btn:hover {
+    opacity: 1;
+}
+
+.km-edit-input {
+    width: 80px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.km-edit-buttons {
+    display: flex;
+    gap: 5px;
+    margin-left: 5px;
+}
+
+.km-save-btn, .km-cancel-btn {
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.km-save-btn {
+    background-color: #4caf50;
+    color: white;
+    border-color: #4caf50;
+}
+
+.km-cancel-btn {
+    background-color: #f44336;
+    color: white;
+    border-color: #f44336;
+}
